@@ -356,3 +356,7 @@ td.num { font-family: var(--display); font-weight: 800; font-size: 20px; }
 }
 /* Próximo partido: título en una sola línea */
 .next__title { display: block; white-space: nowrap; overflow: hidden; }
+/* Tabla: nombre arriba y un apellido debajo */
+.nombre2 { display: flex; flex-direction: column; line-height: 1.25; }
+.nombre2 span { font-weight: 500; color: var(--text-2); font-size: 13px; }
+@media (max-width: 719px) { th:nth-child(2), td:nth-child(2) { min-width: 96px; } }
