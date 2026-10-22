@@ -153,7 +153,7 @@
   const dorsal = (p) => (p && p.dorsal != null && p.dorsal !== '' ? p.dorsal : '–');
   const nombreCorto = (p) => (p ? (p.corto || p.nombre) + (p.capitan ? ' (C)' : '') : '');
   const roleCls = (p) => (p && p.posicion ? p.posicion : 'X');
-  const roleTxt = (p) => (p && p.posicion ? p.posicion : 'Por definir');
+  const roleTxt = (p) => (p && p.posicion ? ROLE_NAME[p.posicion] : 'Por definir');
   const formaHTML = (forma) => '<span class="form">' + forma.map((n) => {
     const cls = n == null ? '' : n >= 7 ? 'hi' : n >= 5 ? 'mid' : 'lo';
     return '<i class="' + cls + '" title="' + (n == null ? 'No jugó' : 'Nota ' + fmt1(n)) + '"></i>';
