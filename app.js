@@ -291,7 +291,7 @@
     $('#view-calendario').innerHTML =
       (n ? '<div class="dark next"><div class="next__main"><div style="display:flex;flex-direction:column;gap:8px"><span class="pill pill--accent" style="align-self:flex-start;letter-spacing:.1em;text-transform:uppercase">Próximo partido · Jornada ' + n.jornada + '</span><span class="next__title">' + partidoTitulo(n.local, n.rival) + '</span></div>' +
         '<div class="facts"><div class="fact">' + ICON.cal + '<span><small>Fecha</small><b>' + esc(n.fecha) + '</b></span></div><div class="fact">' + ICON.clock + '<span><small>Hora</small><b>' + esc(n.hora || '[hh:mm]') + '</b></span></div><div class="fact">' + ICON.pin + '<span><small>Lugar</small><b>' + esc(n.campo || '[Campo]') + ' · ' + (n.local ? 'Local' : 'Visitante') + '</b></span></div><div class="fact">' + ICON.shield + '<span><small>Rival</small><b>' + esc(n.rival) + '</b></span></div></div></div>' +
-        '<div class="strategy"><h2 class="h2" style="font-size:30px">La estrategia del míster</h2>' +
+        <h2 class="h2" style="font-size:30px;text-transform:uppercase;color:#D9700F">La estrategia del míster</h2>
         (n.sistema ? '<div class="chips"><span class="pill pill--ink">Sistema ' + esc(n.sistema) + '</span></div>' : '') +
         '<p class="body2" style="font-size:14px;white-space:pre-line">' + esc(n.estrategia || 'El míster publicará aquí su planteamiento con la crónica de la jornada.') + '</p>' +
         (claves.length ? '<ul>' + claves.map((k) => '<li>' + esc(k) + '</li>').join('') + '</ul>' : '') +
