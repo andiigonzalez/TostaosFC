@@ -303,6 +303,7 @@
         '<span class="fixture__venue">' + (f.local ? 'Local' : 'Visitante') + '</span><span class="fixture__score">' + (f.cr ? (f.local ? f.cr.gf + '–' + f.cr.gc : f.cr.gc + '–' + f.cr.gf) : '–') + '</span>' +
         '<span class="pill fixture__status ' + (f.estado === 'jugado' ? 'pill--soft' : f.estado === 'proximo' ? 'pill--accent' : 'pill--line') + '">' + ({ jugado: 'Jugado', proximo: 'Próximo', pendiente: 'Pendiente' })[f.estado] + '</span>' +
         (f.cr ? '<button class="linkish" data-ir-jornada="' + f.j + '">Crónica</button>' : '') + '</div>').join('') : '<div class="empty">No hay partidos en este filtro.</div>') + '</div>';
+     const tit = $('#view-calendario .next__title'); if (tit) { const fit = () => { tit.style.fontSize = ''; let fs = parseFloat(getComputedStyle(tit).fontSize); while (tit.scrollWidth > tit.clientWidth && fs > 16) { fs -= 1; tit.style.fontSize = fs + 'px'; } }; fit(); if (document.fonts) document.fonts.ready.then(fit); }
   }
 
   // ── rasca y gana: MVP y "el más tostao" ───────────────────
