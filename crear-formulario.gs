@@ -81,9 +81,9 @@ function crearFormulario() {
   form.addListItem().setTitle('MVP del partido').setChoiceValues(JUGADORES).setRequired(true);
   form.addListItem().setTitle('Peor del partido').setChoiceValues(JUGADORES)
     .setHelpText('"El más tostao" de la jornada. Saldrá en la web como rasca y gana.');
-  form.addParagraphTextItem().setTitle('Comentario sobre cada jugador')
-    .setHelpText('Uno por línea: Nombre: comentario.\nEjemplo:\nMinos: incansable en la presión\nPablo Corredoira: dos paradas de mérito');
-
+    form.addSectionHeaderItem().setTitle('Comentario sobre cada jugador')
+    .setHelpText('Opcional. Deja en blanco a quien no quieras comentar.');
+  JUGADORES.forEach((j) => form.addParagraphTextItem().setTitle('Comentario: ' + j));
   // ── 4. PRÓXIMO PARTIDO ───────────────────────────────────────
   form.addPageBreakItem().setTitle('Próximo partido y estrategia');
   form.addDateItem().setTitle('Próximo partido: fecha');
