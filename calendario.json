@@ -1,0 +1,8 @@
+[
+  { "jornada": 1, "fecha": "", "hora": "", "rival": "[Rival 1]", "local": true,  "campo": "" },
+  { "jornada": 2, "fecha": "", "hora": "", "rival": "[Rival 2]", "local": false, "campo": "" },
+  { "jornada": 3, "fecha": "", "hora": "", "rival": "[Rival 3]", "local": true,  "campo": "" },
+  { "jornada": 4, "fecha": "", "hora": "", "rival": "[Rival 4]", "local": false, "campo": "" },
+  { "jornada": 5, "fecha": "", "hora": "", "rival": "[Rival 5]", "local": true,  "campo": "" },
+  { "jornada": 6, "fecha": "", "hora": "", "rival": "[Rival 6]", "local": false, "campo": "" }
+]

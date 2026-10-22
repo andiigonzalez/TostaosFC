@@ -1,0 +1,24 @@
+Marca temporal,Jornada,Fecha del partido,Rival,¿Local o visitante?,Campo,Goles de Tostaos,Goles del rival,Resumen del partido,Momentos clave,Sistema,Once titular,Nota de cada jugador [Pablo Corredoira],Nota de cada jugador [Beltrán Lafuente Beltrán],Nota de cada jugador [Gonzalo Mestanza],Nota de cada jugador [Ricardo Soto],Nota de cada jugador [Diego Muro Matoses],Nota de cada jugador [Antonio Lafuente],Nota de cada jugador [Miguel Marcos],Nota de cada jugador [Minos],Nota de cada jugador [Jacobo Perez Pla],Nota de cada jugador [Nacho Gratacós],Goles de cada jugador [Pablo Corredoira],Goles de cada jugador [Beltrán Lafuente Beltrán],Goles de cada jugador [Gonzalo Mestanza],Goles de cada jugador [Ricardo Soto],Goles de cada jugador [Diego Muro Matoses],Goles de cada jugador [Antonio Lafuente],Goles de cada jugador [Miguel Marcos],Goles de cada jugador [Minos],Goles de cada jugador [Jacobo Perez Pla],Goles de cada jugador [Nacho Gratacós],Asistencias de cada jugador [Pablo Corredoira],Asistencias de cada jugador [Beltrán Lafuente Beltrán],Asistencias de cada jugador [Gonzalo Mestanza],Asistencias de cada jugador [Ricardo Soto],Asistencias de cada jugador [Diego Muro Matoses],Asistencias de cada jugador [Antonio Lafuente],Asistencias de cada jugador [Miguel Marcos],Asistencias de cada jugador [Minos],Asistencias de cada jugador [Jacobo Perez Pla],Asistencias de cada jugador [Nacho Gratacós],Tarjetas [Pablo Corredoira],Tarjetas [Beltrán Lafuente Beltrán],Tarjetas [Gonzalo Mestanza],Tarjetas [Ricardo Soto],Tarjetas [Diego Muro Matoses],Tarjetas [Antonio Lafuente],Tarjetas [Miguel Marcos],Tarjetas [Minos],Tarjetas [Jacobo Perez Pla],Tarjetas [Nacho Gratacós],MVP del partido,Peor del partido,Comentario sobre cada jugador,Próximo partido: fecha,Próximo partido: hora,Próximo partido: rival,Próximo partido: ¿local o visitante?,Próximo partido: campo,Próximo partido: sistema previsto,Estrategia del míster,Claves del partido,Bajas y avisos
+05/10/2026 22:10:00,1,05/10/2026,Rival de ejemplo A,Local,Campo de ejemplo,3,1,"EJEMPLO: texto de prueba para ver cómo queda la crónica.
+
+Aquí irá el resumen real que escriba el míster en el formulario.","9 - Gol - Ejemplo de gol
+27 - Ocasión - Ejemplo de ocasión
+45 - Tarjeta - Ejemplo de tarjeta
+60 - Cambio - Ejemplo de cambio",4-3-3,"Pablo Corredoira, Beltrán Lafuente Beltrán, Gonzalo Mestanza, Ricardo Soto, Diego Muro Matoses, Antonio Lafuente, Miguel Marcos, Minos, Jacobo Perez Pla, Nacho Gratacós",8,8,6,5,5,5,8,9,7,No jugó,,1,,,1,1,,,,,,,1,,,,,,,,,,,Amarilla,,,,,,,Beltrán Lafuente Beltrán,Jacobo Perez Pla,"Pablo Corredoira: comentario de ejemplo
+Beltrán Lafuente Beltrán: comentario de ejemplo",,,,,,,,,
+12/10/2026 22:10:00,2,12/10/2026,Rival de ejemplo B,Visitante,Campo de ejemplo,1,1,"EJEMPLO: texto de prueba para ver cómo queda la crónica.
+
+Aquí irá el resumen real que escriba el míster en el formulario.","9 - Gol - Ejemplo de gol
+27 - Ocasión - Ejemplo de ocasión
+45 - Tarjeta - Ejemplo de tarjeta
+60 - Cambio - Ejemplo de cambio",4-3-3,"Pablo Corredoira, Beltrán Lafuente Beltrán, Gonzalo Mestanza, Ricardo Soto, Diego Muro Matoses, Antonio Lafuente, Miguel Marcos, Minos, Jacobo Perez Pla, Nacho Gratacós",6,9,9,7,7,6,5,7,6,No jugó,,1,,,,,,,,,,,1,,,,,,,,,,,,,,,,,,Pablo Corredoira,Antonio Lafuente,"Pablo Corredoira: comentario de ejemplo
+Beltrán Lafuente Beltrán: comentario de ejemplo",,,,,,,,,
+19/10/2026 22:10:00,3,19/10/2026,Rival de ejemplo C,Local,Campo de ejemplo,0,2,"EJEMPLO: texto de prueba para ver cómo queda la crónica.
+
+Aquí irá el resumen real que escriba el míster en el formulario.","9 - Gol - Ejemplo de gol
+27 - Ocasión - Ejemplo de ocasión
+45 - Tarjeta - Ejemplo de tarjeta
+60 - Cambio - Ejemplo de cambio",4-3-3,"Pablo Corredoira, Beltrán Lafuente Beltrán, Gonzalo Mestanza, Ricardo Soto, Diego Muro Matoses, Antonio Lafuente, Miguel Marcos, Minos, Jacobo Perez Pla, Nacho Gratacós",5,7,7,6,6,7,7,7,5,9,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Beltrán Lafuente Beltrán,Jacobo Perez Pla,"Pablo Corredoira: comentario de ejemplo
+Beltrán Lafuente Beltrán: comentario de ejemplo",26/10/2026,18:30:00,Rival de ejemplo D,Visitante,Campo de ejemplo,4-4-2,EJEMPLO: resumen del planteamiento que escribirá el míster.,"Clave de ejemplo 1
+Clave de ejemplo 2
+Clave de ejemplo 3",EJEMPLO: bajas y hora de quedada.

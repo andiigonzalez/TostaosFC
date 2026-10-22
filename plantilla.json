@@ -1,0 +1,32 @@
+[
+  {
+    "nombre": "Pablo Corredoira",
+    "corto": "P. Corredoira",
+    "dorsal": 1,
+    "posicion": "POR",
+    "pie": "",
+    "edad": "",
+    "capitan": false,
+    "foto": "",
+    "descripcion": "Portero del equipo. Fuera del campo, abogado."
+  },
+  {
+    "nombre": "Beltrán Lafuente Beltrán",
+    "corto": "B. Lafuente",
+    "dorsal": 10,
+    "posicion": "MED",
+    "pie": "Zurdo",
+    "edad": "",
+    "capitan": true,
+    "foto": "",
+    "descripcion": "Míster, capitán y centrocampista zurdo. Juega con el 10 por Messi, del que es fan absoluto. Jugó un año en Primera División en España, en Segunda División con el Pisa y en Islandia con el UMF Skallagrímur."
+  },
+  { "nombre": "Gonzalo Mestanza", "corto": "G. Mestanza", "dorsal": null, "posicion": "", "pie": "", "edad": "", "capitan": false, "foto": "", "descripcion": "" },
+  { "nombre": "Ricardo Soto", "corto": "R. Soto", "dorsal": null, "posicion": "", "pie": "", "edad": "", "capitan": false, "foto": "", "descripcion": "" },
+  { "nombre": "Diego Muro Matoses", "corto": "D. Muro", "dorsal": null, "posicion": "", "pie": "", "edad": "", "capitan": false, "foto": "", "descripcion": "" },
+  { "nombre": "Antonio Lafuente", "corto": "A. Lafuente", "dorsal": null, "posicion": "", "pie": "", "edad": "", "capitan": false, "foto": "", "descripcion": "" },
+  { "nombre": "Miguel Marcos", "corto": "M. Marcos", "dorsal": null, "posicion": "", "pie": "", "edad": "", "capitan": false, "foto": "", "descripcion": "" },
+  { "nombre": "Minos", "corto": "Minos", "dorsal": null, "posicion": "", "pie": "", "edad": "", "capitan": false, "foto": "", "descripcion": "" },
+  { "nombre": "Jacobo Perez Pla", "corto": "J. Perez Pla", "dorsal": null, "posicion": "", "pie": "", "edad": "", "capitan": false, "foto": "", "descripcion": "" },
+  { "nombre": "Nacho Gratacós", "corto": "N. Gratacós", "dorsal": null, "posicion": "", "pie": "", "edad": "", "capitan": false, "foto": "", "descripcion": "" }
+]
