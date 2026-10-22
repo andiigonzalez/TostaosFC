@@ -256,6 +256,10 @@ td.num { font-family: var(--display); font-weight: 800; font-size: 20px; }
 
 /* ===================== MÓVIL PRIMERO ===================== */
 .tabs a svg { display: none; }
+.swipe-hint { display: none; }
+.pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 16px; }
+.pgrid .pcard { width: auto; max-width: none; }
+
 @media (max-width: 719px) {
   body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
   .top__inner { justify-content: center; padding-top: 10px; padding-bottom: 10px; }
@@ -274,6 +278,8 @@ td.num { font-family: var(--display); font-weight: 800; font-size: 20px; }
   .h1 { font-size: 38px; }
   .h2 { font-size: 24px !important; }
   .page-head { align-items: flex-start; gap: 12px; }
+
+  /* Inicio */
   .hero { gap: 18px; }
   .hero h1 { font-size: 46px; }
   .hero p { font-size: 15px; }
@@ -288,6 +294,8 @@ td.num { font-family: var(--display); font-weight: 800; font-size: 20px; }
   .premios__grid { gap: 14px; }
   .rasca { min-height: 220px; border-radius: 16px; }
   .rasca__name { font-size: 28px; }
+
+  /* Plantilla */
   .seg { width: 100%; }
   .seg button { flex: 1; }
   .pitch-col, .side-col { flex-basis: 100%; }
@@ -298,21 +306,51 @@ td.num { font-family: var(--display); font-weight: 800; font-size: 20px; }
   .carousel-head .arrows { display: none; }
   .carousel { margin: 0 -16px; padding: 0 16px 8px; scroll-padding-left: 16px; }
   .pcard { width: 78vw; max-width: 300px; }
-  table { min-width: 0; font-size: 13px; }
+  .role { padding: 2px 8px; font-size: 11px; }
+  /* tabla deslizable: número y nombre fijos */
+  .swipe-hint { display: block; font-size: 13px; margin-bottom: -8px; }
+  .table-box { -webkit-overflow-scrolling: touch; }
+  table { min-width: 720px; font-size: 13px; }
   th, td { padding: 10px 8px; }
   th { font-size: 11px; letter-spacing: .02em; }
   td.num { font-size: 17px; }
-  th:nth-child(3), td:nth-child(3), th:nth-child(5), td:nth-child(5), th:nth-child(8), td:nth-child(8), th:nth-child(9), td:nth-child(9), th:nth-child(11), td:nth-child(11) { display: none; }
-  .role {
-   .pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 16px; }
-   .pgrid .pcard { width: auto; max-width: none; }
-/* Plantilla: en móvil se ven todas las columnas y se desliza a la derecha */
-.swipe-hint { display: none; }
-@media (max-width: 719px) {
-  .swipe-hint { display: block; font-size: 13px; margin-bottom: -8px; }
-  table { min-width: 720px; }
-  th:nth-child(3), td:nth-child(3), th:nth-child(5), td:nth-child(5), th:nth-child(8), td:nth-child(8), th:nth-child(9), td:nth-child(9), th:nth-child(11), td:nth-child(11) { display: table-cell; }
   th:nth-child(1), td:nth-child(1) { position: sticky; left: 0; z-index: 2; background: #fff; width: 40px; min-width: 40px; }
   th:nth-child(2), td:nth-child(2) { position: sticky; left: 40px; z-index: 2; background: #fff; min-width: 130px; box-shadow: 8px 0 8px -8px rgba(21,23,26,.25); }
-  .table-box { -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; }
+
+  /* Partidos */
+  .jselect { width: 100%; }
+  .jselect select { flex: 1; min-width: 0; }
+  .scoreboard__row { gap: 6px 14px; }
+  .scoreboard__team { font-size: 20px; min-width: 0; flex: 1 1 100px; }
+  .scoreboard__score { font-size: 56px; }
+  .ratings { gap: 12px; }
+  .rcard { padding: 16px; }
+
+  /* Calendario */
+  .next { gap: 18px; }
+  .next__title { font-size: 36px; }
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .fact { padding: 12px; gap: 8px; align-items: flex-start; }
+  .fact svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; }
+  .fact b { font-size: 14px; }
+  .strategy { padding: 18px; }
+  .fixture { display: grid; grid-template-columns: 60px minmax(0, 1fr) auto; grid-template-areas: "date main score" "date venue status" "date link link"; gap: 4px 12px; padding: 12px 14px; align-items: center; }
+  .fixture__date { grid-area: date; width: auto; align-self: start; }
+  .fixture__main { grid-area: main; }
+  .fixture__main b { font-size: 15px; }
+  .fixture__score { grid-area: score; min-width: 0; text-align: right; font-size: 22px; }
+  .fixture__venue { grid-area: venue; min-width: 0; }
+  .fixture__status { grid-area: status; min-width: 0; justify-self: end; }
+  .fixture .linkish { grid-area: link; justify-self: start; min-height: 32px; }
+
+  /* Historial: hoja que sube desde abajo */
+  .modal { align-items: flex-end; padding: 0; }
+  .modal__box { max-height: 92vh; border-radius: 20px 20px 0 0; }
+  .modal__head { padding: 18px 16px; gap: 12px; }
+  .modal__head .num-badge { width: 46px; height: 46px; font-size: 22px; }
+  .modal__title { font-size: 24px; }
+  .modal__body { padding: 16px 16px calc(24px + env(safe-area-inset-bottom)); }
+  .modal .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .foot__inner { justify-content: center; text-align: center; flex-direction: column; align-items: center; }
 }
