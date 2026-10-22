@@ -94,6 +94,16 @@
   // ── datos ──────────────────────────────────────────────────
   function buildCronicas(rows) {
     const byJ = {};
+    // Reconoce a un jugador escriba lo que escriba: "Jacobo", "pla", "Perez-Pla", "beltran"…
+    const limpio = (t) => norm(t).replace(/[-.]/g, ' ').replace(/\s+/g, ' ').trim();
+    const quien = (txt) => {
+      const k = limpio(txt); if (!k) return null;
+      let c = S.plantilla.filter((p) => [p.nombre, p.corto, p.apodo, p.apellido].filter(Boolean).some((n) => limpio(n) === k));
+      if (c.length === 1) return c[0];
+      const palabras = k.split(' ');
+      c = S.plantilla.filter((p) => { const w = limpio([p.nombre, p.apellido, p.corto, p.apodo].filter(Boolean).join(' ')).split(' '); return palabras.every((x) => w.includes(x)); });
+      return c.length === 1 ? c[0] : null;
+    };
     rows.forEach((row) => {
       const g = makeGetter(row);
       const j = toInt(g(Q.jornada));
@@ -103,14 +113,14 @@
       const comentarios = {};
       g(Q.comentarios).split(/\n/).forEach((line) => {
         const i = line.indexOf(':'); if (i < 1) return;
-        comentarios[norm(line.slice(0, i))] = line.slice(i + 1).trim();
+        const pj = quien(line.slice(0, i)); if (pj) comentarios[pj.nombre] = line.slice(i + 1).trim();
       });
       const jugadores = {};
       S.plantilla.forEach((p) => {
         const notaRaw = g(Q.nota, p.nombre);
         const jugo = notaRaw !== '' && norm(notaRaw) !== 'no jugo';
         const tarj = g(Q.tarjetas, p.nombre);
-        const com = comentarios[norm(p.nombre)] || comentarios[norm(p.corto)] || Object.keys(comentarios).filter((k) => norm(p.nombre).startsWith(k) && k.length > 2).map((k) => comentarios[k])[0] || '';
+        const com = g('Comentario: ' + p.nombre) || comentarios[p.nombre] || '';
         jugadores[p.nombre] = {
           jugo, nota: jugo ? parseFloat(notaRaw.replace(',', '.')) : null,
           goles: toInt(g(Q.goles, p.nombre)), asist: toInt(g(Q.asist, p.nombre)),
@@ -220,13 +230,13 @@
     const perfiles = S.plantilla.slice().sort((a, b) => (b.capitan ? 1 : 0) - (a.capitan ? 1 : 0)).map((p) => {
       const st = statsJugador(p.nombre);
       return '<button class="pcard" data-jugador="' + esc(p.nombre) + '"><span class="pcard__top">' + (p.foto ? '<img class="foto" src="' + esc(p.foto) + '" alt="">' : ICON.person) + '<span class="pcard__num">' + dorsal(p) + '</span></span>' +
-        '<span class="pcard__body"><span><span class="pcard__name">' + esc(p.nombre) + (p.capitan ? ' (C)' : '') + '</span><span class="pcard__meta"><span class="role ' + roleCls(p) + '">' + roleTxt(p) + '</span>' + [p.edad ? p.edad + ' años' : '', p.pie].filter(Boolean).map(esc).join(' · ') + '</span></span>' +
+        '<span class="pcard__body"><span><span class="pcard__name">' + esc(p.nombre) + (p.capitan ? ' (C)' : '') + '</span>' + (p.apodo ? '<span class="pcard__apodo">«' + esc(p.apodo) + '»</span>' : '') + '<span class="pcard__meta"><span class="role ' + roleCls(p) + '">' + roleTxt(p) + '</span>' + [p.edad ? p.edad + ' años' : '', p.pie].filter(Boolean).map(esc).join(' · ') + '</span></span>' +
         '<span class="mini-stats"><span><b>' + st.pj + '</b><small>Partidos</small></span><span><b>' + fmt1(st.media) + '</b><small>Nota media</small></span><span><b>' + st.goles + '</b><small>Goles</small></span><span><b>' + st.asist + '</b><small>Asistencias</small></span></span>' +
-        (p.descripcion ? '<p>' + esc(p.descripcion) + '</p>' : '') + '</span></button>';
+        (p.mo ? '<span class="pcard__mo"><small>Modus operandi</small>' + esc(p.mo) + '</span>' : '') + (p.descripcion ? '<p>' + esc(p.descripcion) + '</p>' : '') + '</span></button>';
     }).join('');
     const filas = S.plantilla.slice().sort((a, b) => ROLE_ORDER.indexOf(a.posicion || '') - ROLE_ORDER.indexOf(b.posicion || '')).map((p) => {
       const st = statsJugador(p.nombre);
-      <td><button class="linkish nombre2" data-jugador="' + esc(p.nombre) + '"><b>' + esc(p.nombre.split(' ')[0]) + '</b><span>' + esc(p.apellido != null ? p.apellido : (p.nombre.split(' ')[1] || '')) + (p.capitan ? ' (C)' : '') + '</span></button></td>
+      return '<tr><td class="num">' + dorsal(p) + '</td><td><button class="linkish nombre2" data-jugador="' + esc(p.nombre) + '"><b>' + esc(p.nombre.split(' ')[0]) + '</b><span>' + esc(p.apellido != null ? p.apellido : (p.nombre.split(' ')[1] || '')) + (p.capitan ? ' (C)' : '') + '</span></button></td><td><span class="role ' + roleCls(p) + '">' + roleTxt(p) + '</span></td>' +
         '<td class="c">' + st.pj + '</td><td class="c">' + st.titular + '</td><td class="c">' + st.goles + '</td><td class="c">' + st.asist + '</td><td class="c">' + st.amarillas + ' / ' + st.rojas + '</td><td class="c">' + st.mvps + '</td><td class="c"><b>' + fmt1(st.media) + '</b></td><td>' + formaHTML(st.forma) + '</td></tr>';
     }).join('');
     const bajas = u && u.proximo && u.proximo.bajas;
@@ -239,8 +249,8 @@
           '<div class="side-col">' + (u ? '<div class="card"><h2 class="h2" style="font-size:24px">Banquillo</h2>' + (banquillo.length ? banquillo.map((p) => '<button class="bench-row" data-jugador="' + esc(p.nombre) + '"><span class="n">' + dorsal(p) + '</span><span class="name">' + esc(p.nombre) + '</span><span class="role ' + roleCls(p) + '">' + roleTxt(p) + '</span></button>').join('') : '<p class="muted">Toda la plantilla salió de titular.</p>') + '</div>' : '') +
           '<div class="card"><h2 class="h2" style="font-size:24px">Notas del míster</h2><span class="muted" style="margin-top:-8px">Beltrán Lafuente Beltrán · Míster y capitán</span><p class="body2" style="font-size:14px;white-space:pre-line">' + esc(bajas || 'Sin avisos por ahora.') + '</p></div></div></div>' +
           '<div style="display:flex;flex-direction:column;gap:14px"><div class="carousel-head"><div><h2 class="h2" style="font-size:30px">Perfiles de jugadores</h2><span class="muted">' + S.plantilla.length + ' jugadores · pulsa una tarjeta para ver su historial</span></div><div class="arrows"><button class="icon-btn" data-car="-1" aria-label="Anteriores">' + ICON.left + '</button><button class="icon-btn" data-car="1" aria-label="Siguientes">' + ICON.right + '</button></div></div><div class="carousel" id="carousel">' + perfiles + '</div></div>'
-                  : S.view === 'jugadores'
-           ? '<span class="muted">' + S.plantilla.length + ' jugadores · pulsa una tarjeta para ver su historial</span><div class="pgrid">' + perfiles + '</div>'
+        : S.view === 'jugadores'
+        ? '<span class="muted">' + S.plantilla.length + ' jugadores · pulsa una tarjeta para ver su historial</span><div class="pgrid">' + perfiles + '</div>'
         : '<span class="muted swipe-hint">Desliza hacia la derecha para ver todas las estadísticas →</span><div class="table-box"><table><thead><tr><th>#</th><th>Jugador</th><th>Pos.</th><th class="c">PJ</th><th class="c">Titular</th><th class="c">Goles</th><th class="c">Asist.</th><th class="c">Tarjetas</th><th class="c">MVP</th><th class="c">Nota media</th><th>Forma (últ. 5)</th></tr></thead><tbody>' + filas + '</tbody></table></div>' +
           '<div class="legend"><span><i class="form"><i class="hi"></i></i>Nota 7 o más</span><span><i class="form"><i class="mid"></i></i>5 a 6,9</span><span><i class="form"><i class="lo"></i></i>Menos de 5</span><span><i class="form"><i></i></i>No jugó</span></div>');
   }
@@ -291,7 +301,7 @@
     $('#view-calendario').innerHTML =
       (n ? '<div class="dark next"><div class="next__main"><div style="display:flex;flex-direction:column;gap:8px"><span class="pill pill--accent" style="align-self:flex-start;letter-spacing:.1em;text-transform:uppercase">Próximo partido · Jornada ' + n.jornada + '</span><span class="next__title">' + partidoTitulo(n.local, n.rival) + '</span></div>' +
         '<div class="facts"><div class="fact">' + ICON.cal + '<span><small>Fecha</small><b>' + esc(n.fecha) + '</b></span></div><div class="fact">' + ICON.clock + '<span><small>Hora</small><b>' + esc(n.hora || '[hh:mm]') + '</b></span></div><div class="fact">' + ICON.pin + '<span><small>Lugar</small><b>' + esc(n.campo || '[Campo]') + ' · ' + (n.local ? 'Local' : 'Visitante') + '</b></span></div><div class="fact">' + ICON.shield + '<span><small>Rival</small><b>' + esc(n.rival) + '</b></span></div></div></div>' +
-        <h2 class="h2" style="font-size:30px;text-transform:uppercase;color:#D9700F">La estrategia del míster</h2>
+        '<div class="strategy"><h2 class="h2" style="font-size:30px;text-transform:uppercase;color:#D9700F">La estrategia del míster</h2>' +
         (n.sistema ? '<div class="chips"><span class="pill pill--ink">Sistema ' + esc(n.sistema) + '</span></div>' : '') +
         '<p class="body2" style="font-size:14px;white-space:pre-line">' + esc(n.estrategia || 'El míster publicará aquí su planteamiento con la crónica de la jornada.') + '</p>' +
         (claves.length ? '<ul>' + claves.map((k) => '<li>' + esc(k) + '</li>').join('') + '</ul>' : '') +
@@ -303,7 +313,7 @@
         '<span class="fixture__venue">' + (f.local ? 'Local' : 'Visitante') + '</span><span class="fixture__score">' + (f.cr ? (f.local ? f.cr.gf + '–' + f.cr.gc : f.cr.gc + '–' + f.cr.gf) : '–') + '</span>' +
         '<span class="pill fixture__status ' + (f.estado === 'jugado' ? 'pill--soft' : f.estado === 'proximo' ? 'pill--accent' : 'pill--line') + '">' + ({ jugado: 'Jugado', proximo: 'Próximo', pendiente: 'Pendiente' })[f.estado] + '</span>' +
         (f.cr ? '<button class="linkish" data-ir-jornada="' + f.j + '">Crónica</button>' : '') + '</div>').join('') : '<div class="empty">No hay partidos en este filtro.</div>') + '</div>';
-     const tit = $('#view-calendario .next__title'); if (tit) { const fit = () => { tit.style.fontSize = ''; let fs = parseFloat(getComputedStyle(tit).fontSize); while (tit.scrollWidth > tit.clientWidth && fs > 16) { fs -= 1; tit.style.fontSize = fs + 'px'; } }; fit(); if (document.fonts) document.fonts.ready.then(fit); }
+    const tit = $('#view-calendario .next__title'); if (tit) { const fit = () => { tit.style.fontSize = ''; let fs = parseFloat(getComputedStyle(tit).fontSize); while (tit.scrollWidth > tit.clientWidth && fs > 16) { fs -= 1; tit.style.fontSize = fs + 'px'; } }; fit(); if (document.fonts) document.fonts.ready.then(fit); }
   }
 
   // ── rasca y gana: MVP y "el más tostao" ───────────────────
@@ -414,13 +424,21 @@
 
   // ── historial (modal) ─────────────────────────────────────
   let lastFocus = null;
+  function fichaHTML(p) {
+    const filas = [['Posición', p.posicion ? ROLE_NAME[p.posicion] : 'Por definir'], ['Pie', p.pie], ['Edad', p.edad ? p.edad + ' años' : ''], ['Apodo', p.apodo]].filter((x) => x[1]);
+    return '<div class="ficha"><div class="ficha__datos">' + filas.map((x) => '<span><small>' + x[0] + '</small><b>' + esc(x[1]) + '</b></span>').join('') + '</div>' +
+      (p.descripcion ? '<div><small>Resumen</small><p>' + esc(p.descripcion) + '</p></div>' : '') +
+      (p.mo ? '<div><small>Modus operandi</small><p>' + esc(p.mo) + '</p></div>' : '') +
+      (p.gracioso ? '<div class="ficha__fun"><small>Lo que no sale en las estadísticas</small><p>' + esc(p.gracioso) + '</p></div>' : '') +
+      '</div>';
+  }
   function abrirHistorial(nombre) {
     const p = jugador(nombre); if (!p) return;
     const st = statsJugador(p.nombre);
     const hist = S.cronicas.filter((c) => c.jugadores[p.nombre] && c.jugadores[p.nombre].jugo).slice().reverse();
     const box = $('#modal .modal__box');
-    box.innerHTML = '<div class="modal__head"><span class="num-badge num-badge--accent">' + dorsal(p) + '</span><div><span class="eyebrow">Historial de crónicas</span><span class="modal__title" id="modal-title">' + esc(p.nombre) + (p.capitan ? ' (C)' : '') + '</span><span style="font-size:13px;color:#C9CDD4">' + (p.posicion ? ROLE_NAME[p.posicion] : 'Posición por definir') + ' · Temporada ' + esc(CFG.temporada) + '</span></div><button class="icon-btn icon-btn--light" data-close aria-label="Cerrar historial">' + ICON.close + '</button></div>' +
-      '<div class="modal__body"><div class="stats">' + [['Nota media', fmt1(st.media)], ['Partidos', st.pj], ['Goles', st.goles], ['Asistencias', st.asist], ['Veces MVP', st.mvps]].map((x) => '<div class="stat"><b style="font-size:28px">' + x[1] + '</b><span>' + x[0] + '</span></div>').join('') + '</div>' +
+    box.innerHTML = '<div class="modal__head"><span class="num-badge num-badge--accent">' + dorsal(p) + '</span><div><span class="eyebrow">Perfil del jugador</span><span class="modal__title" id="modal-title">' + esc(p.nombre) + (p.capitan ? ' (C)' : '') + '</span><span style="font-size:13px;color:#C9CDD4">' + (p.posicion ? ROLE_NAME[p.posicion] : 'Posición por definir') + ' · Temporada ' + esc(CFG.temporada) + '</span></div><button class="icon-btn icon-btn--light" data-close aria-label="Cerrar historial">' + ICON.close + '</button></div>' +
+      '<div class="modal__body">' + fichaHTML(p) + '<div class="stats">' + [['Nota media', fmt1(st.media)], ['Partidos', st.pj], ['Goles', st.goles], ['Asistencias', st.asist], ['Veces MVP', st.mvps]].map((x) => '<div class="stat"><b style="font-size:28px">' + x[1] + '</b><span>' + x[0] + '</span></div>').join('') + '</div>' +
       '<div><h3 class="h2" style="font-size:22px;margin-bottom:6px">Jornada a jornada</h3>' + (hist.length ? hist.map((c) => {
         const d = c.jugadores[p.nombre];
         return '<div class="hist"><span class="hist__nota"><small>Nota</small><b>' + fmt1(d.nota) + '</b></span><div class="hist__main"><div class="hist__top"><b>Jornada ' + c.jornada + ' · ' + (c.local ? 'Tostaos F.C. vs ' + esc(c.rival) : esc(c.rival) + ' vs Tostaos F.C.') + '</b><span style="font-family:var(--display);font-weight:800;font-size:20px">' + (c.local ? c.gf + '–' + c.gc : c.gc + '–' + c.gf) + '</span></div>' +
@@ -440,7 +458,7 @@
     document.querySelectorAll('.view').forEach((v) => { v.hidden = v.dataset.view !== S.tab; });
     document.querySelectorAll('.tabs a').forEach((a) => { if (a.dataset.tab === S.tab) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
     RENDER[S.tab]();
-     window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }
   document.addEventListener('click', (e) => {
     const t = e.target.closest('[data-jugador],[data-view],[data-filtro],[data-j],[data-car],[data-close],[data-ir-jornada]');
