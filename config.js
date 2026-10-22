@@ -13,6 +13,6 @@ window.TOSTAOS_CONFIG = {
 
   liga: "[Liga]",
   temporada: "26/27",
-  ciudad: "[Ciudad]",
+  ciudad: "Madrid",
   lema: "[Lema o frase del equipo]"
 };
