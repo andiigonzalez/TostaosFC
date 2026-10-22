@@ -304,3 +304,5 @@ td.num { font-family: var(--display); font-weight: 800; font-size: 20px; }
   td.num { font-size: 17px; }
   th:nth-child(3), td:nth-child(3), th:nth-child(5), td:nth-child(5), th:nth-child(8), td:nth-child(8), th:nth-child(9), td:nth-child(9), th:nth-child(11), td:nth-child(11) { display: none; }
   .role {
+   .pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 16px; }
+   .pgrid .pcard { width: auto; max-width: none; }
