@@ -354,3 +354,5 @@ td.num { font-family: var(--display); font-weight: 800; font-size: 20px; }
 
   .foot__inner { justify-content: center; text-align: center; flex-direction: column; align-items: center; }
 }
+/* Próximo partido: título en una sola línea */
+.next__title { display: block; white-space: nowrap; overflow: hidden; }
