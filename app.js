@@ -135,7 +135,7 @@
         return { min: '', tipo: '', texto: l };
       });
       byJ[j] = {
-        jornada: j, fecha: g(Q.fecha), rival: g(Q.rival) || '[Rival]', local: norm(g(Q.localia)) !== 'visitante', campo: g(Q.campo),
+        jornada: j, fecha: g(Q.fecha), rival: g(Q.rival) || '[Rival]', local: true, campo: g(Q.campo),
         gf, gc, res: gf > gc ? 'V' : gf === gc ? 'E' : 'D', resumen: g(Q.resumen), momentos,
         sistema: g(Q.sistema), titulares, jugadores, mvp: g(Q.mvp), peor: g(Q.peor),
         proximo: { fecha: g(Q.pFecha), hora: g(Q.pHora), rival: g(Q.pRival), localia: g(Q.pLocalia), campo: g(Q.pCampo), sistema: g(Q.pSistema), estrategia: g(Q.estrategia), claves: g(Q.claves), bajas: g(Q.bajas) }
@@ -176,9 +176,9 @@
     const cal = S.calendario.filter((c) => !jugadas.has(c.jornada)).sort((a, b) => a.jornada - b.jornada)[0];
     if (u && u.proximo && u.proximo.rival) {
       const p = u.proximo;
-      return { jornada: cal ? cal.jornada : u.jornada + 1, fecha: fechaLarga(p.fecha), hora: hora(p.hora) || '[hh:mm]', rival: p.rival, local: norm(p.localia) !== 'visitante', campo: p.campo || (cal && cal.campo) || '[Campo]', sistema: p.sistema, estrategia: p.estrategia, claves: p.claves, bajas: p.bajas };
+      return { jornada: cal ? cal.jornada : u.jornada + 1, fecha: fechaLarga(p.fecha), hora: hora(p.hora) || '[hh:mm]', rival: p.rival, local: true, campo: p.campo || (cal && cal.campo) || '[Campo]', sistema: p.sistema, estrategia: p.estrategia, claves: p.claves, bajas: p.bajas };
     }
-    if (cal) return { jornada: cal.jornada, fecha: parseFecha(cal.fecha) ? fechaLarga(cal.fecha) : 'Fecha por fijar', hora: cal.hora, rival: cal.rival, local: cal.local !== false, campo: cal.campo, sistema: '', estrategia: '', claves: '', bajas: '' };
+    if (cal) return { jornada: cal.jornada, fecha: parseFecha(cal.fecha) ? fechaLarga(cal.fecha) : 'Fecha por fijar', hora: cal.hora, rival: cal.rival, local: true, campo: cal.campo, sistema: '', estrategia: '', claves: '', bajas: '' };
     return null;
   }
   const partidoTitulo = (local, rival) => (local ? 'Tostaos F.C. <span>vs</span> ' + esc(rival) : esc(rival) + ' <span>vs</span> Tostaos F.C.');
@@ -277,7 +277,7 @@
     $('#view-partidos').innerHTML =
       '<div class="page-head"><div><span class="eyebrow eyebrow--accent">Crónica semanal</span><h1 class="h1">Jornada ' + c.jornada + '</h1></div>' +
       '<div class="jselect"><button class="icon-btn icon-btn--light" data-j="-1" aria-label="Jornada anterior"' + (idx === 0 ? ' disabled' : '') + '>' + ICON.left + '</button><label class="sr" style="position:absolute;left:-9999px" for="jsel">Elegir jornada</label><select id="jsel">' + opts + '</select><button class="icon-btn icon-btn--light" data-j="1" aria-label="Jornada siguiente"' + (idx === S.cronicas.length - 1 ? ' disabled' : '') + '>' + ICON.right + '</button></div></div>' +
-      '<div class="dark scoreboard"><small>' + fechaLarga(c.fecha) + (c.campo ? ' · ' + esc(c.campo) : '') + ' · ' + (c.local ? 'Local' : 'Visitante') + '</small><div class="scoreboard__row"><span class="scoreboard__team">' + (c.local ? 'TOSTAOS F.C.' : esc(c.rival).toUpperCase()) + '</span><span class="scoreboard__score">' + (c.local ? c.gf + ' – ' + c.gc : c.gc + ' – ' + c.gf) + '</span><span class="scoreboard__team">' + (c.local ? esc(c.rival).toUpperCase() : 'TOSTAOS F.C.') + '</span></div>' + (goleadores.length ? '<small>Goles de Tostaos: ' + goleadores.join(', ') + '</small>' : '') + '</div>' +
+      '<div class="dark scoreboard"><small>' + fechaLarga(c.fecha) + (c.campo ? ' · ' + esc(c.campo) : '') + '</small><div class="scoreboard__row"><span class="scoreboard__team">' + (c.local ? 'TOSTAOS F.C.' : esc(c.rival).toUpperCase()) + '</span><span class="scoreboard__score">' + (c.local ? c.gf + ' – ' + c.gc : c.gc + ' – ' + c.gf) + '</span><span class="scoreboard__team">' + (c.local ? esc(c.rival).toUpperCase() : 'TOSTAOS F.C.') + '</span></div>' + (goleadores.length ? '<small>Goles de Tostaos: ' + goleadores.join(', ') + '</small>' : '') + '</div>' +
       '<div class="row-wrap"><div class="card summary"><h2 class="h2" style="font-size:26px">Resumen del partido</h2>' + (parrafos || '<p class="muted">Sin resumen.</p>') + '</div>' +
       '<div class="card moments"><h2 class="h2" style="font-size:26px;margin-bottom:6px">Momentos clave</h2>' + (c.momentos.length ? c.momentos.map((m) => '<div class="moment"><span class="moment__min">' + esc(m.min) + '</span>' + (m.tipo ? '<span class="tag ' + norm(m.tipo).replace(/[^a-z]/g, '') + '">' + esc(m.tipo) + '</span>' : '') + '<span class="body2" style="font-size:14px">' + esc(m.texto) + '</span></div>').join('') : '<p class="muted">Sin momentos clave.</p>') + '</div></div>' +
       premiosHTML(c) +
@@ -292,7 +292,7 @@
     const lista = Array.from(js).sort((a, b) => a - b).map((j) => {
       const cal = S.calendario.find((c) => c.jornada === j) || {};
       const cr = porJ[j];
-      const local = cr ? cr.local : cal.local !== false;
+      const local = true;
       const rival = cr ? cr.rival : cal.rival || '[Rival]';
       const estado = cr ? 'jugado' : n && n.jornada === j ? 'proximo' : 'pendiente';
       return { j, local, rival, cr, cal, estado, fecha: cr ? fechaCorta(cr.fecha) : (parseFecha(cal.fecha) ? fechaCorta(cal.fecha) : 'Por fijar') };
@@ -300,7 +300,7 @@
     const claves = n && n.claves ? n.claves.split(/\n/).filter((x) => x.trim()) : [];
     $('#view-calendario').innerHTML =
       (n ? '<div class="dark next"><div class="next__main"><div style="display:flex;flex-direction:column;gap:8px"><span class="pill pill--accent" style="align-self:flex-start;letter-spacing:.1em;text-transform:uppercase">Próximo partido · Jornada ' + n.jornada + '</span><span class="next__title">' + partidoTitulo(n.local, n.rival) + '</span></div>' +
-        '<div class="facts"><div class="fact">' + ICON.cal + '<span><small>Fecha</small><b>' + esc(n.fecha) + '</b></span></div><div class="fact">' + ICON.clock + '<span><small>Hora</small><b>' + esc(n.hora || '[hh:mm]') + '</b></span></div><div class="fact">' + ICON.pin + '<span><small>Lugar</small><b>' + esc(n.campo || '[Campo]') + ' · ' + (n.local ? 'Local' : 'Visitante') + '</b></span></div><div class="fact">' + ICON.shield + '<span><small>Rival</small><b>' + esc(n.rival) + '</b></span></div></div></div>' +
+        '<div class="facts"><div class="fact">' + ICON.cal + '<span><small>Fecha</small><b>' + esc(n.fecha) + '</b></span></div><div class="fact">' + ICON.clock + '<span><small>Hora</small><b>' + esc(n.hora || '[hh:mm]') + '</b></span></div><div class="fact">' + ICON.pin + '<span><small>Lugar</small><b>' + esc(n.campo || '[Campo]') + '</b></span></div><div class="fact">' + ICON.shield + '<span><small>Rival</small><b>' + esc(n.rival) + '</b></span></div></div></div>' +
         '<div class="strategy"><h2 class="h2" style="font-size:30px;text-transform:uppercase;color:#D9700F">La estrategia del míster</h2>' +
         (n.sistema ? '<div class="chips"><span class="pill pill--ink">Sistema ' + esc(n.sistema) + '</span></div>' : '') +
         '<p class="body2" style="font-size:14px;white-space:pre-line">' + esc(n.estrategia || 'El míster publicará aquí su planteamiento con la crónica de la jornada.') + '</p>' +
@@ -310,7 +310,7 @@
       [['todos', 'Todos'], ['proximos', 'Próximos'], ['jugados', 'Jugados']].map((f) => '<button data-filtro="' + f[0] + '" aria-pressed="' + (S.filtro === f[0]) + '">' + f[1] + '</button>').join('') + '</div></div>' +
       '<div class="fixtures">' + (lista.length ? lista.map((f) => '<div class="fixture' + (f.estado === 'proximo' ? ' fixture--next' : '') + '"><span class="fixture__date"><small>J' + f.j + '</small><b>' + esc(f.fecha) + '</b></span>' +
         '<span class="fixture__main"><b>' + (f.local ? 'Tostaos F.C. vs ' + esc(f.rival) : esc(f.rival) + ' vs Tostaos F.C.') + '</b><span class="muted" style="font-size:13px">' + esc([f.cal.hora, f.cr ? f.cr.campo : f.cal.campo].filter(Boolean).join(' · ')) + '</span></span>' +
-        '<span class="fixture__venue">' + (f.local ? 'Local' : 'Visitante') + '</span><span class="fixture__score">' + (f.cr ? (f.local ? f.cr.gf + '–' + f.cr.gc : f.cr.gc + '–' + f.cr.gf) : '–') + '</span>' +
+        '<span class="fixture__score">' + (f.cr ? (f.local ? f.cr.gf + '–' + f.cr.gc : f.cr.gc + '–' + f.cr.gf) : '–') + '</span>' +
         '<span class="pill fixture__status ' + (f.estado === 'jugado' ? 'pill--soft' : f.estado === 'proximo' ? 'pill--accent' : 'pill--line') + '">' + ({ jugado: 'Jugado', proximo: 'Próximo', pendiente: 'Pendiente' })[f.estado] + '</span>' +
         (f.cr ? '<button class="linkish" data-ir-jornada="' + f.j + '">Crónica</button>' : '') + '</div>').join('') : '<div class="empty">No hay partidos en este filtro.</div>') + '</div>';
     const tit = $('#view-calendario .next__title'); if (tit) { const fit = () => { tit.style.fontSize = ''; let fs = parseFloat(getComputedStyle(tit).fontSize); while (tit.scrollWidth > tit.clientWidth && fs > 16) { fs -= 1; tit.style.fontSize = fs + 'px'; } }; fit(); if (document.fonts) document.fonts.ready.then(fit); }
