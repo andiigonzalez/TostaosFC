@@ -306,3 +306,13 @@ td.num { font-family: var(--display); font-weight: 800; font-size: 20px; }
   .role {
    .pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 16px; }
    .pgrid .pcard { width: auto; max-width: none; }
+/* Plantilla: en móvil se ven todas las columnas y se desliza a la derecha */
+.swipe-hint { display: none; }
+@media (max-width: 719px) {
+  .swipe-hint { display: block; font-size: 13px; margin-bottom: -8px; }
+  table { min-width: 720px; }
+  th:nth-child(3), td:nth-child(3), th:nth-child(5), td:nth-child(5), th:nth-child(8), td:nth-child(8), th:nth-child(9), td:nth-child(9), th:nth-child(11), td:nth-child(11) { display: table-cell; }
+  th:nth-child(1), td:nth-child(1) { position: sticky; left: 0; z-index: 2; background: #fff; width: 40px; min-width: 40px; }
+  th:nth-child(2), td:nth-child(2) { position: sticky; left: 40px; z-index: 2; background: #fff; min-width: 130px; box-shadow: 8px 0 8px -8px rgba(21,23,26,.25); }
+  .table-box { -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; }
+}
