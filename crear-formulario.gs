@@ -108,3 +108,7 @@ function crearFormulario() {
   Logger.log('Editar formulario: ' + form.getEditUrl());
   Logger.log('Hoja de respuestas: ' + hoja.getUrl());
 }
+
+## mister: https://docs.google.com/forms/d/e/1FAIpQLSdExrvDrF_BZZ18lkEVfJnv73TNVGG1hdFAJmmmfHxW6qFRmw/viewform
+## Editar formulario: https://docs.google.com/forms/d/14BhZk8-Ia04ycePx8-5t9k6IrmtzfbPEYmYcjL7Af4E/edit
+## Hoja de respuestas: https://docs.google.com/spreadsheets/d/1UF64MQTzSgda_0nKgW2xl05h8vy6kBPnPK6Vi98ctXo/edit
