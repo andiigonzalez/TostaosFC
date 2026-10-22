@@ -378,8 +378,10 @@
       ctx.globalAlpha = 0.12; ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 10;
       for (let x = -H; x < W; x += 28) { ctx.beginPath(); ctx.moveTo(x, H); ctx.lineTo(x + H, 0); ctx.stroke(); }
       ctx.globalAlpha = 1; ctx.textAlign = 'center'; ctx.fillStyle = mvp ? '#15171A' : '#FFFFFF';
-      ctx.font = '800 34px "Barlow Condensed", sans-serif';
-      ctx.fillText(mvp ? '¿QUIÉN ES EL MVP?' : '¿QUIÉN SE HA TOSTADO?', W / 2, H / 2 - 4);
+      const titulo = mvp ? '¿QUIÉN ES EL MVP?' : '¿QUIÉN SE HA TOSTADO?';
+      let fs = 34; ctx.font = '800 ' + fs + 'px "Barlow Condensed", sans-serif';
+      while (ctx.measureText(titulo).width > W - 40 && fs > 16) { fs -= 2; ctx.font = '800 ' + fs + 'px "Barlow Condensed", sans-serif'; }
+      ctx.fillText(titulo, W / 2, H / 2 - 4);
       ctx.font = '600 14px Inter, sans-serif';
       ctx.fillText('Rasca aquí', W / 2, H / 2 + 24);
       ctx.globalCompositeOperation = 'destination-out';
@@ -435,6 +437,7 @@
     document.querySelectorAll('.view').forEach((v) => { v.hidden = v.dataset.view !== S.tab; });
     document.querySelectorAll('.tabs a').forEach((a) => { if (a.dataset.tab === S.tab) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
     RENDER[S.tab]();
+     window.scrollTo(0, 0);
   }
   document.addEventListener('click', (e) => {
     const t = e.target.closest('[data-jugador],[data-view],[data-filtro],[data-j],[data-car],[data-close],[data-ir-jornada]');
