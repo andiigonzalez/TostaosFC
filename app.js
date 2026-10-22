@@ -226,7 +226,7 @@
     }).join('');
     const filas = S.plantilla.slice().sort((a, b) => ROLE_ORDER.indexOf(a.posicion || '') - ROLE_ORDER.indexOf(b.posicion || '')).map((p) => {
       const st = statsJugador(p.nombre);
-      return '<tr><td class="num">' + dorsal(p) + '</td><td><button class="linkish" data-jugador="' + esc(p.nombre) + '">' + esc(p.nombre) + (p.capitan ? ' (C)' : '') + '</button></td><td><span class="role ' + roleCls(p) + '">' + roleTxt(p) + '</span></td>' +
+      <td><button class="linkish nombre2" data-jugador="' + esc(p.nombre) + '"><b>' + esc(p.nombre.split(' ')[0]) + '</b><span>' + esc(p.apellido != null ? p.apellido : (p.nombre.split(' ')[1] || '')) + (p.capitan ? ' (C)' : '') + '</span></button></td>
         '<td class="c">' + st.pj + '</td><td class="c">' + st.titular + '</td><td class="c">' + st.goles + '</td><td class="c">' + st.asist + '</td><td class="c">' + st.amarillas + ' / ' + st.rojas + '</td><td class="c">' + st.mvps + '</td><td class="c"><b>' + fmt1(st.media) + '</b></td><td>' + formaHTML(st.forma) + '</td></tr>';
     }).join('');
     const bajas = u && u.proximo && u.proximo.bajas;
