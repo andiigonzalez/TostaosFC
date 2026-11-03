@@ -360,3 +360,6 @@ td.num { font-family: var(--display); font-weight: 800; font-size: 20px; }
 .nombre2 { display: flex; flex-direction: column; line-height: 1.25; }
 .nombre2 span { font-weight: 500; color: var(--text-2); font-size: 13px; }
 @media (max-width: 719px) { th:nth-child(2), td:nth-child(2) { min-width: 96px; } }
+
+ .role.DEF-BAN { background: #C9DCF2; } .role.MED-BAN { background: #C6E9D2; }
+ .pcard__full { display: block; font-size: 12px; color: var(--muted); margin-top: -2px; }
