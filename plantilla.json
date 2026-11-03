@@ -8,7 +8,7 @@
     "edad": "",
     "capitan": false,
     "foto": "",
-    "descripcion": "Portero del equipo. Fuera del campo, abogado."
+    "descripcion": "Este portero dedica a defender. Fuera del campo con la ley y dentro con su cuerpo."
   },
   {
     "nombre": "Beltrán Lafuente",
@@ -25,7 +25,7 @@
   { "nombre": "Juan de Solas", "corto": "J. Solas", "dorsal": 19, "posicion": "Mediocentro banda", "capitan": false, "foto": "", "descripcion": "Notario recién titulado." },
   { "nombre": "Jaime Díez", "corto": "J. Díez", "dorsal": 11, "posicion": "Mediocentro banda", "capitan": false, "foto": "", "descripcion": "" },
   { "nombre": "Nicolás Cifuentes", "corto": "N. Cifu", "dorsal": 14, "posicion": "Mediocentro banda", "capitan": false, "foto": "", "descripcion": "" },
-  { "nombre": "Miguel Suárez", "corto": "M. Suárez", "dorsal": 21 , "posicion": "Defensa Banda", "capitan": false, "foto": "", "descripcion": "" },
+  { "nombre": "Miguel Suárez", "corto": "M. Suárez", "dorsal": 21 , "posicion": "Defensa banda", "capitan": false, "foto": "", "descripcion": "" },
   { "nombre": "Gonzalo Ballesteros", "corto": "G. Balles", "dorsal": 16 , "posicion": "Delantero", "capitan": false, "foto": "", "descripcion": "Deportista multifacético con tal de darle golpes a una bola." },
   { "nombre": "Antonio Lafuente", "corto": "A. Lafu", "dorsal": 8, "posicion": "Medriocentro banda", "capitan": false, "foto": "", "descripcion": "" },
   { "nombre": "Javier Laín", "corto": "J.Laín", "dorsal": 6, "posicion": "Defensa", "capitan": false, "foto": "", "descripcion": "" },
