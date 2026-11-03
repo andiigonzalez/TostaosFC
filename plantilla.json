@@ -33,5 +33,5 @@
   { "nombre": "Jacobo Pérez-Pla", "corto": "J. Pérez-Pla", "dorsal": 7, "posicion": "Defensa banda", "capitan": false, "foto": "", "descripcion": "" },
   { "nombre": "Jaime Salafranca", "corto": "J. Salafranca", "dorsal": 5, "posicion": "Defensa", "capitan": false, "foto": "", "descripcion": "" },
   { "nombre": "Javier Rodríguez-Moneu", "corto": "J. Rodríguez-Moneu", "dorsal": 4 , "posicion": "Defensa", "capitan": false, "foto": "", "descripcion": "" },
-  { "nombre": "Yago Tomé", "corto": "Y. Tomé", "dorsal": 19 , "posicion": "Mediocentro", "capitan": false, "foto": "", "descripcion": "" },
+  { "nombre": "Yago Tomé", "corto": "Y. Tomé", "dorsal": 30 , "posicion": "Mediocentro", "capitan": false, "foto": "", "descripcion": "" },
 ]
