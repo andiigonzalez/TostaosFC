@@ -3,7 +3,7 @@
 (function () {
   'use strict';
 
-  const CFG = Object.assign({ urlRespuestasCSV: '', usarEjemplo: false, liga: '', temporada: '', ciudad: '', lema: '' }, window.TOSTAOS_CONFIG || {});
+  const CFG = Object.assign({ urlRespuestasCSV: '', urlCalendarioCSV: '', usarEjemplo: false, liga: '', temporada: '', ciudad: '', lema: '' }, window.TOSTAOS_CONFIG || {});
 
   // Títulos de las preguntas del formulario (idénticos a crear-formulario.gs)
   const Q = {
@@ -112,6 +112,8 @@
 
   const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
   const DIAS = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+  const MESES_L = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  const DIAS_L = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   function parseFecha(s) {
     if (!s) return null;
     let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
@@ -120,7 +122,8 @@
     if (m) return new Date(+m[3] < 100 ? 2000 + +m[3] : +m[3], +m[2] - 1, +m[1]);
     return null;
   }
-  function fechaLarga(s) { const d = parseFecha(s); return d ? DIAS[d.getDay()] + ' ' + d.getDate() + ' ' + MESES[d.getMonth()] + ' ' + d.getFullYear() : (s || '[Fecha]'); }
+  // "Jueves 8 de Octubre, 2026"
+  function fechaLarga(s) { const d = parseFecha(s); return d ? DIAS_L[d.getDay()] + ' ' + d.getDate() + ' de ' + MESES_L[d.getMonth()] + ', ' + d.getFullYear() : (s || '[Fecha]'); }
   function fechaCorta(s) { const d = parseFecha(s); return d ? d.getDate() + ' ' + MESES[d.getMonth()] : (s || '–'); }
   const hora = (s) => (s ? s.replace(/^(\d{1,2}:\d{2})(:\d{2})?.*$/, '$1') : '');
   const toInt = (v) => { const n = parseInt(String(v).replace('+', ''), 10); return isNaN(n) ? 0 : n; };
@@ -216,11 +219,11 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
     const u = ultima();
     const jugadas = new Set(S.cronicas.map((c) => c.jornada));
     const cal = S.calendario.filter((c) => !jugadas.has(c.jornada)).sort((a, b) => a.jornada - b.jornada)[0];
-    if (u && u.proximo && u.proximo.rival) {
-      const p = u.proximo;
-      return { jornada: cal ? cal.jornada : u.jornada + 1, fecha: fechaLarga(p.fecha), hora: hora(p.hora) || '[hh:mm]', rival: p.rival, local: true, campo: p.campo || (cal && cal.campo) || '[Campo]', sistema: p.sistema, estrategia: p.estrategia, claves: p.claves, bajas: p.bajas };
-    }
-    if (cal) return { jornada: cal.jornada, fecha: parseFecha(cal.fecha) ? fechaLarga(cal.fecha) : 'Fecha por fijar', hora: cal.hora, rival: cal.rival, local: true, campo: cal.campo, sistema: '', estrategia: '', claves: '', bajas: '' };
+    const p = (u && u.proximo) || {};
+    const estrategia = { sistema: p.sistema || '', estrategia: p.estrategia || '', claves: p.claves || '', bajas: p.bajas || '' };
+    // Fecha, hora, rival y campo: primero el calendario; si no hay, lo que puso el míster en la crónica
+    if (cal) return Object.assign({ jornada: cal.jornada, fecha: parseFecha(cal.fecha) ? fechaLarga(cal.fecha) : 'Fecha por fijar', hora: hora(cal.hora) || '[hh:mm]', rival: cal.rival, local: true, campo: cal.campo || '[Campo]', estado: cal.estado || '', notas: cal.notas || '' }, estrategia);
+    if (p.rival) return Object.assign({ jornada: u.jornada + 1, fecha: fechaLarga(p.fecha), hora: hora(p.hora) || '[hh:mm]', rival: p.rival, local: true, campo: p.campo || '[Campo]', estado: '', notas: '' }, estrategia);
     return null;
   }
   const partidoTitulo = (local, rival) => (local ? 'Tostaos F.C. <span>vs</span> ' + esc(rival) : esc(rival) + ' <span>vs</span> Tostaos F.C.');
@@ -342,12 +345,13 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
       const cr = porJ[j];
       const local = true;
       const rival = cr ? cr.rival : cal.rival || '[Rival]';
-      const estado = cr ? 'jugado' : n && n.jornada === j ? 'proximo' : 'pendiente';
-      return { j, local, rival, cr, cal, estado, fecha: cr ? fechaCorta(cr.fecha) : (parseFecha(cal.fecha) ? fechaCorta(cal.fecha) : 'Por fijar') };
+      const aviso = !cr && /aplazado|por confirmar/i.test(cal.estado || '') ? cal.estado : '';
+      const estado = cr ? 'jugado' : aviso ? 'aviso' : n && n.jornada === j ? 'proximo' : 'pendiente';
+      return { j, local, rival, cr, cal, estado, aviso, fecha: cr ? fechaCorta(cr.fecha) : (parseFecha(cal.fecha) ? fechaCorta(cal.fecha) : 'Por fijar') };
     }).filter((f) => S.filtro === 'todos' || (S.filtro === 'jugados' ? f.estado === 'jugado' : f.estado !== 'jugado'));
     const claves = n && n.claves ? n.claves.split(/\n/).filter((x) => x.trim()) : [];
     $('#view-calendario').innerHTML =
-      (n ? '<div class="dark next"><div class="next__main"><div style="display:flex;flex-direction:column;gap:8px"><span class="pill pill--accent" style="align-self:flex-start;letter-spacing:.1em;text-transform:uppercase">Próximo partido · Jornada ' + n.jornada + '</span><span class="next__title">' + partidoTitulo(n.local, n.rival) + '</span></div>' +
+      (n ? '<div class="dark next"><div class="next__main"><div style="display:flex;flex-direction:column;gap:8px"><span class="pill pill--accent" style="align-self:flex-start;letter-spacing:.1em;text-transform:uppercase">Próximo partido · Jornada ' + n.jornada + '</span><span class="next__title">' + partidoTitulo(n.local, n.rival) + '</span>' + (n.estado && !/confirmado/i.test(n.estado) || /por confirmar/i.test(n.estado || '') ? '<span class="pill pill--aviso" style="align-self:flex-start">' + esc(n.estado) + '</span>' : '') + (n.notas ? '<span style="color:#C9CDD4;font-size:14px">' + esc(n.notas) + '</span>' : '') + '</div>' +
         '<div class="facts"><div class="fact">' + ICON.cal + '<span><small>Fecha</small><b>' + esc(n.fecha) + '</b></span></div><div class="fact">' + ICON.clock + '<span><small>Hora</small><b>' + esc(n.hora || '[hh:mm]') + '</b></span></div><div class="fact">' + ICON.pin + '<span><small>Lugar</small><b>' + esc(n.campo || '[Campo]') + '</b></span></div><div class="fact">' + ICON.shield + '<span><small>Rival</small><b>' + esc(n.rival) + '</b></span></div></div></div>' +
         '<div class="strategy"><h2 class="h2" style="font-size:30px;text-transform:uppercase;color:#D9700F">La estrategia del míster</h2>' +
         (n.sistema ? '<div class="chips"><span class="pill pill--ink">Sistema ' + esc(n.sistema) + '</span></div>' : '') +
@@ -357,9 +361,9 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
       '<div class="page-head"><div><span class="eyebrow eyebrow--accent">Temporada ' + esc(CFG.temporada) + '</span><h1 class="h1">Calendario</h1></div><div class="chips" role="group" aria-label="Filtrar partidos">' +
       [['todos', 'Todos'], ['proximos', 'Próximos'], ['jugados', 'Jugados']].map((f) => '<button data-filtro="' + f[0] + '" aria-pressed="' + (S.filtro === f[0]) + '">' + f[1] + '</button>').join('') + '</div></div>' +
       '<div class="fixtures">' + (lista.length ? lista.map((f) => '<div class="fixture' + (f.estado === 'proximo' ? ' fixture--next' : '') + '"><span class="fixture__date"><small>J' + f.j + '</small><b>' + esc(f.fecha) + '</b></span>' +
-        '<span class="fixture__main"><b>' + (f.local ? 'Tostaos F.C. vs ' + esc(f.rival) : esc(f.rival) + ' vs Tostaos F.C.') + '</b><span class="muted" style="font-size:13px">' + esc([f.cal.hora, f.cr ? f.cr.campo : f.cal.campo].filter(Boolean).join(' · ')) + '</span></span>' +
+        '<span class="fixture__main"><b>' + (f.local ? 'Tostaos F.C. vs ' + esc(f.rival) : esc(f.rival) + ' vs Tostaos F.C.') + '</b><span class="muted" style="font-size:13px">' + esc([f.cr ? fechaLarga(f.cr.fecha) : (parseFecha(f.cal.fecha) ? fechaLarga(f.cal.fecha) : ''), hora(f.cal.hora), f.cr ? f.cr.campo : f.cal.campo, !f.cr && f.cal.notas ? f.cal.notas : ''].filter(Boolean).join(' · ')) + '</span></span>' +
         '<span class="fixture__score">' + (f.cr ? (f.local ? f.cr.gf + '–' + f.cr.gc : f.cr.gc + '–' + f.cr.gf) : '–') + '</span>' +
-        '<span class="pill fixture__status ' + (f.estado === 'jugado' ? 'pill--soft' : f.estado === 'proximo' ? 'pill--accent' : 'pill--line') + '">' + ({ jugado: 'Jugado', proximo: 'Próximo', pendiente: 'Pendiente' })[f.estado] + '</span>' +
+        '<span class="pill fixture__status ' + (f.estado === 'jugado' ? 'pill--soft' : f.estado === 'proximo' ? 'pill--accent' : f.estado === 'aviso' ? 'pill--aviso' : 'pill--line') + '">' + (f.estado === 'aviso' ? esc(f.aviso) : ({ jugado: 'Jugado', proximo: 'Próximo', pendiente: 'Pendiente' })[f.estado]) + '</span>' +
         (f.cr ? '<button class="linkish" data-ir-jornada="' + f.j + '">Crónica</button>' : '') + '</div>').join('') : '<div class="empty">No hay partidos en este filtro.</div>') + '</div>';
     const tit = $('#view-calendario .next__title'); if (tit) { const fit = () => { tit.style.fontSize = ''; let fs = parseFloat(getComputedStyle(tit).fontSize); while (tit.scrollWidth > tit.clientWidth && fs > 16) { fs -= 1; tit.style.fontSize = fs + 'px'; } }; fit(); if (document.fonts) document.fonts.ready.then(fit); }
   }
@@ -490,7 +494,7 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
       '<div><h3 class="h2" style="font-size:22px;margin-bottom:6px">Jornada a jornada</h3>' + (hist.length ? hist.map((c) => {
         const d = c.jugadores[p.nombre];
         return '<div class="hist"><span class="hist__nota"><small>Nota</small><b>' + fmt1(d.nota) + '</b></span><div class="hist__main"><div class="hist__top"><b>Jornada ' + c.jornada + ' · ' + (c.local ? 'Tostaos F.C. vs ' + esc(c.rival) : esc(c.rival) + ' vs Tostaos F.C.') + '</b><span style="font-family:var(--display);font-weight:800;font-size:20px">' + (c.local ? c.gf + '–' + c.gc : c.gc + '–' + c.gf) + '</span></div>' +
-          '<span class="muted" style="font-size:13px">' + fechaCorta(c.fecha) + ' · ' + (d.titular ? 'Titular' : 'Suplente') + ' · ' + d.goles + ' goles · ' + d.asist + ' asist.' + (d.amarilla ? ' · Amarilla' : '') + (d.roja ? ' · Roja' : '') + (norm(c.mvp) === norm(p.nombre) ? ' · MVP' : '') + '</span>' +
+          '<span class="muted" style="font-size:13px">' + fechaLarga(c.fecha) + ' · ' + (d.titular ? 'Titular' : 'Suplente') + ' · ' + d.goles + ' goles · ' + d.asist + ' asist.' + (d.amarilla ? ' · Amarilla' : '') + (d.roja ? ' · Roja' : '') + (norm(c.mvp) === norm(p.nombre) ? ' · MVP' : '') + '</span>' +
           (d.comentario ? '<p class="body2" style="font-size:14px;margin-top:4px">' + esc(d.comentario) + '</p>' : '') + '</div></div>';
       }).join('') : '<p class="muted">Aún no ha jugado ningún partido con crónica.</p>') + '</div></div>';
     lastFocus = document.activeElement;
@@ -538,6 +542,22 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
     } catch (err) {
       aviso('No se pudo leer <b>plantilla.json</b>. Si abres el archivo directamente desde tu ordenador no funciona: súbelo a GitHub Pages o usa un servidor local.');
       return go();
+    }
+    if (CFG.urlCalendarioCSV) {
+      try {
+        const sepC = CFG.urlCalendarioCSV.indexOf('?') >= 0 ? '&' : '?';
+        const txtC = await fetch(CFG.urlCalendarioCSV + sepC + 't=' + Date.now(), { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); });
+        const porJ = {};
+        S.calendario.forEach((c) => { porJ[c.jornada] = c; });          // base: calendario.json (si tiene algo)
+        parseCSV(txtC).forEach((row) => {                                // cada envío; el último de cada jornada manda
+          const g = makeGetter(row), j = toInt(g('Jornada'));
+          if (!j) return;
+          porJ[j] = { jornada: j, fecha: g('Fecha'), hora: g('Hora'), rival: g('Rival') || '[Rival]', campo: g('Campo'), estado: g('Estado'), notas: g('Notas') };
+        });
+        S.calendario = Object.values(porJ).filter((c) => !/cancelado/i.test(c.estado || '')).sort((a, b) => a.jornada - b.jornada);
+      } catch (err) {
+        aviso('No se pudo cargar el calendario. Revisa el enlace <b>urlCalendarioCSV</b> de config.js.');
+      }
     }
     let url = CFG.urlRespuestasCSV;
     if (!url && CFG.usarEjemplo) { url = 'ejemplo.csv'; aviso('Estás viendo <b>datos de ejemplo</b>. Cuando tengas el formulario, pega el enlace CSV en config.js y pon <code>usarEjemplo: false</code>.'); }
