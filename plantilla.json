@@ -9,7 +9,7 @@
   },
   { "nombre": "Gonzalo Mestanza", "corto": "G. Mestanza", "dorsal": 77, "posicion": "Mediocentro", "capitan": false, "foto": "", "descripcion": "" },
   { "nombre": "Ricardo Soto", "corto": "R. Soto", "dorsal": 88, "posicion": "Mediocentro banda", "capitan": false, "foto": "", "descripcion": "" },
-  { "nombre": "Diego Muro", "corto": "D. Muro", "dorsal": 204, "posicion": "Defensa banda", "capitan": false, "foto": "", "descripcion": "Con más fondo que el pacifico, el equipo agradece su dedicación al gym" },
+  { "nombre": "Diego Muro", "corto": "D. Muro", "dorsal": 204, "posicion": "Defensa banda", "capitan": false, "foto": "", "descripcion": "Con más fondo que el pacífico, el equipo agradece su dedicación al gym" },
   { "nombre": "Juan de Solas", "corto": "J. Solas", "dorsal": 19, "posicion": "Mediocentro banda", "capitan": false, "foto": "", "descripcion": "Notario recién titulado." },
   { "nombre": "Jaime Díez", "corto": "J. Díez", "dorsal": 11, "posicion": "Mediocentro banda", "capitan": false, "foto": "", "descripcion": "" },
   { "nombre": "Nicolás Cifuentes", "corto": "N. Cifu", "dorsal": 14, "posicion": "Mediocentro banda", "capitan": false, "foto": "", "descripcion": "" },
