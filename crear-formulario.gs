@@ -14,18 +14,10 @@
  * La web lee las respuestas por esos títulos.
  */
 
-const JUGADORES = [
-  'Pablo Corredoira',
-  'Beltrán Lafuente Beltrán',
-  'Gonzalo Mestanza',
-  'Ricardo Soto',
-  'Diego Muro Matoses',
-  'Antonio Lafuente',
-  'Miguel Marcos',
-  'Minos',
-  'Jacobo Perez Pla',
-  'Nacho Gratacós'
-];
+const JUGADORES =  ['Pablo Corredoira', 'Beltrán Lafuente', 'Gonzalo Mestanza', 'Ricardo Soto', 'Diego Muro',
+    'Juan de Solas', 'Jaime Díez', 'Nicolás Cifuentes', 'Miguel Suárez', 'Gonzalo Ballesteros',
+    'Antonio Lafuente', 'Javier Laín', 'Manuel Nuñez', 'Jacobo Pérez-Pla', 'Jaime Salafranca',
+    'Javier Rodríguez-Moneu', 'Yago Tomé'];
 
 const SISTEMAS = ['4-3-3', '4-4-2', '3-5-2', 'Otro'];
 
