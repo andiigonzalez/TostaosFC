@@ -17,16 +17,16 @@
     estrategia: 'Estrategia del míster', claves: 'Claves del partido', bajas: 'Bajas y avisos', peor: 'Peor del partido'
   };
 
+  // Fútbol 7: portero + 6 jugadores de campo. [puesto, x %, y %, línea]
   const FORMACIONES = {
-    '4-3-3': [['POR', 50, 88, 'POR'], ['LD', 85, 68, 'DEF'], ['DFC', 62, 72, 'DEF'], ['DFC', 38, 72, 'DEF'], ['LI', 15, 68, 'DEF'], ['MC', 72, 47, 'MED'], ['MCD', 50, 53, 'MED'], ['MC', 28, 47, 'MED'], ['ED', 82, 20, 'DEL'], ['DC', 50, 14, 'DEL'], ['EI', 18, 20, 'DEL']],
-    '4-4-2': [['POR', 50, 88, 'POR'], ['LD', 85, 68, 'DEF'], ['DFC', 62, 72, 'DEF'], ['DFC', 38, 72, 'DEF'], ['LI', 15, 68, 'DEF'], ['MD', 85, 43, 'MED'], ['MC', 62, 48, 'MED'], ['MC', 38, 48, 'MED'], ['MI', 15, 43, 'MED'], ['DC', 63, 16, 'DEL'], ['DC', 37, 16, 'DEL']],
-    '3-5-2': [['POR', 50, 88, 'POR'], ['DFC', 74, 71, 'DEF'], ['DFC', 50, 74, 'DEF'], ['DFC', 26, 71, 'DEF'], ['CAD', 87, 44, 'MED'], ['MC', 66, 46, 'MED'], ['MCD', 50, 55, 'MED'], ['MC', 34, 46, 'MED'], ['CAI', 13, 44, 'MED'], ['DC', 63, 16, 'DEL'], ['DC', 37, 16, 'DEL']],
-    '4-2-3-1': [['POR', 50, 88, 'POR'], ['LD', 85, 68, 'DEF'], ['DFC', 62, 72, 'DEF'], ['DFC', 38, 72, 'DEF'],['LI', 15, 68, 'DEF'],['MCD', 63, 53, 'MED'],['MCD', 37, 53, 'MED'], ['MD', 82, 33, 'MED'], ['MCO', 50, 36, 'MED'],['MI', 18, 33, 'MED'],['DC', 50, 14, 'DEL'] ],
-    '4-1-4-1': [['POR', 50, 88, 'POR'], ['LD', 85, 68, 'DEF'], ['DFC', 62, 72, 'DEF'],['DFC', 38, 72, 'DEF'], ['LI', 15, 68, 'DEF'],['MCD', 50, 56, 'MED'],['MD', 85, 38, 'MED'], ['MC', 62, 42, 'MED'], ['MC', 38, 42, 'MED'], ['MI', 15, 38, 'MED'],['DC', 50, 14, 'DEL'] ],
-    '3-4-3': [ ['POR', 50, 88, 'POR'], ['DFC', 74, 71, 'DEF'],  ['DFC', 50, 74, 'DEF'], ['DFC', 26, 71, 'DEF'], ['MD', 85, 45, 'MED'], ['MC', 62, 49, 'MED'],['MC', 38, 49, 'MED'],['MI', 15, 45, 'MED'], ['ED', 82, 20, 'DEL'],['DC', 50, 14, 'DEL'],['EI', 18, 20, 'DEL'] ],
-    '3-4-2-1': [ ['POR', 50, 88, 'POR'], ['DFC', 74, 71, 'DEF'], ['DFC', 50, 74, 'DEF'], ['DFC', 26, 71, 'DEF'], ['MD', 85, 48, 'MED'], ['MC', 62, 52, 'MED'],['MC', 38, 52, 'MED'], ['MI', 15, 48, 'MED'], ['MCO', 65, 31, 'MED'], ['MCO', 35, 31, 'MED'], ['DC', 50, 13, 'DEL'] ],
-    '5-3-2': [ ['POR', 50, 88, 'POR'], ['CAD', 88, 62, 'DEF'], ['DFC', 70, 72, 'DEF'], ['DFC', 50, 75, 'DEF'], ['DFC', 30, 72, 'DEF'],['CAI', 12, 62, 'DEF'], ['MC', 70, 45, 'MED'], ['MCD', 50, 51, 'MED'],  ['MC', 30, 45, 'MED'], ['DC', 63, 16, 'DEL'], ['DC', 37, 16, 'DEL'] ]
-};
+    '2-3-1':   [['POR', 50, 88, 'POR'], ['DFC', 68, 70, 'DEF'], ['DFC', 32, 70, 'DEF'], ['MD', 84, 45, 'MED'], ['MC', 50, 49, 'MED'], ['MI', 16, 45, 'MED'], ['DC', 50, 17, 'DEL']],
+    '3-2-1':   [['POR', 50, 88, 'POR'], ['LD', 82, 67, 'DEF'], ['DFC', 50, 71, 'DEF'], ['LI', 18, 67, 'DEF'], ['MC', 66, 45, 'MED'], ['MC', 34, 45, 'MED'], ['DC', 50, 17, 'DEL']],
+    '3-1-2':   [['POR', 50, 88, 'POR'], ['LD', 82, 67, 'DEF'], ['DFC', 50, 71, 'DEF'], ['LI', 18, 67, 'DEF'], ['MC', 50, 47, 'MED'], ['DC', 66, 19, 'DEL'], ['DC', 34, 19, 'DEL']],
+    '2-1-2-1': [['POR', 50, 88, 'POR'], ['DFC', 66, 71, 'DEF'], ['DFC', 34, 71, 'DEF'], ['MCD', 50, 56, 'MED'], ['MD', 80, 37, 'MED'], ['MI', 20, 37, 'MED'], ['DC', 50, 15, 'DEL']],
+    '2-2-2':   [['POR', 50, 88, 'POR'], ['DFC', 66, 71, 'DEF'], ['DFC', 34, 71, 'DEF'], ['MD', 76, 45, 'MED'], ['MI', 24, 45, 'MED'], ['DC', 64, 18, 'DEL'], ['DC', 36, 18, 'DEL']],
+    '3-3':     [['POR', 50, 88, 'POR'], ['LD', 82, 66, 'DEF'], ['DFC', 50, 70, 'DEF'], ['LI', 18, 66, 'DEF'], ['ED', 82, 26, 'DEL'], ['DC', 50, 18, 'DEL'], ['EI', 18, 26, 'DEL']]
+  };
+  const SISTEMA_DEFECTO = '2-3-1';
   const ROLE_ORDER = ['POR', 'DEF', 'DEF-BAN', 'MED', 'MED-BAN', 'DEL', ''];
 
    const ROLE_NAME = {
@@ -40,13 +40,15 @@
    };
    
    const ROLE_CODE = {
-     'portero': 'POR',
-     'defensa': 'DEF',
-     'defensa banda': 'DEF-BAN',
-     'mediocentro': 'MED',
-     'mediocentro banda': 'MED-BAN',
-     'delantero': 'DEL'
+     'portero': 'POR', 'por': 'POR',
+     'defensa': 'DEF', 'def': 'DEF',
+     'defensa banda': 'DEF-BAN', 'def-ban': 'DEF-BAN',
+     'mediocentro': 'MED', 'med': 'MED', 'centrocampista': 'MED',
+     'mediocentro banda': 'MED-BAN', 'med-ban': 'MED-BAN',
+     'delantero': 'DEL', 'del': 'DEL'
    };
+   // Puestos del campo que van pegados a la banda
+   const SLOT_BANDA = ['LD', 'LI', 'CAD', 'CAI', 'MD', 'MI', 'ED', 'EI'];
 
    const ROLE_GROUP = {
      POR: 'POR',
@@ -245,16 +247,22 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
 
   function alineacion() {
     const u = ultima();
-    const sistema = u && FORMACIONES[u.sistema] ? u.sistema : '4-3-3';
+    const sistema = u && FORMACIONES[u.sistema] ? u.sistema : SISTEMA_DEFECTO;
     const slots = FORMACIONES[sistema].map((s) => ({ role: s[0], x: s[1], y: s[2], grupo: s[3], p: null }));
     if (u) {
-      const tit = S.plantilla.filter((p) => u.jugadores[p.nombre] && u.jugadores[p.nombre].titular).slice(0, 11);
-      const sobran = [];
-      tit.sort((a, b) => ROLE_ORDER.indexOf(a.posicion || '') - ROLE_ORDER.indexOf(b.posicion || '')).forEach((p) => {
-        const s = slots.find((sl) => !sl.p && sl.grupo === p.posicion);
-        if (s) s.p = p; else sobran.push(p);
+      const tit = S.plantilla.filter((p) => u.jugadores[p.nombre] && u.jugadores[p.nombre].titular).slice(0, 7);
+      const libre = (f) => slots.find((sl) => !sl.p && f(sl));
+      const orden = (p) => ROLE_ORDER.indexOf(roleCode(p));
+      tit.slice().sort((a, b) => orden(a) - orden(b)).forEach((p) => {
+        const code = roleCode(p), grupo = roleGroup(p), banda = code.indexOf('-BAN') > 0;
+        const s = (banda && libre((sl) => sl.grupo === grupo && SLOT_BANDA.includes(sl.role)))   // su línea, en banda
+          || (!banda && libre((sl) => sl.grupo === grupo && !SLOT_BANDA.includes(sl.role)))    // su línea, por dentro
+          || (grupo && libre((sl) => sl.grupo === grupo))                                       // su línea, donde sea
+          || (banda && libre((sl) => SLOT_BANDA.includes(sl.role)))                             // otra banda libre
+          || libre((sl) => sl.grupo !== 'POR' || grupo === 'POR')                               // cualquier hueco
+          || libre(() => true);
+        if (s) s.p = p;
       });
-      sobran.forEach((p) => { const s = slots.slice().reverse().find((sl) => !sl.p && sl.grupo !== 'POR') || slots.find((sl) => !sl.p); if (s) s.p = p; });
     }
     return { u, sistema, slots };
   }
@@ -270,13 +278,13 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
     const perfiles = S.plantilla.slice().sort((a, b) => (b.capitan ? 1 : 0) - (a.capitan ? 1 : 0)).map((p) => {
       const st = statsJugador(p.nombre);
       return '<button class="pcard" data-jugador="' + esc(p.nombre) + '"><span class="pcard__top">' + (p.foto ? '<img class="foto" src="' + esc(p.foto) + '" alt="">' : ICON.person) + '<span class="pcard__num">' + dorsal(p) + '</span></span>' +
-        '<span class="pcard__body"><span><span class="pcard__name">' + esc(p.nombre) + (p.capitan ? ' (C)' : '') + '</span>' + (p.apodo ? '<span class="pcard__apodo">«' + esc(p.apodo) + '»</span>' : '') + '<span class="pcard__meta"><span class="role ' + roleCls(p) + '">' + roleTxt(p) + '</span></span>' +
+        '<span class="pcard__body"><span><span class="pcard__name">' + esc(nombreCorto(p)) + '</span><span class="pcard__full">' + esc(p.nombre) + '</span>' + '<span class="pcard__meta"><span class="role ' + roleCls(p) + '">' + roleTxt(p) + '</span></span>' +
         '<span class="mini-stats"><span><b>' + st.pj + '</b><small>Partidos</small></span><span><b>' + fmt1(st.media) + '</b><small>Nota media</small></span><span><b>' + st.goles + '</b><small>Goles</small></span><span><b>' + st.asist + '</b><small>Asistencias</small></span></span>' +
         (p.mo ? '<span class="pcard__mo"><small>Modus operandi</small>' + esc(p.mo) + '</span>' : '') + (p.descripcion ? '<p>' + esc(p.descripcion) + '</p>' : '') + '</span></button>';
     }).join('');
-    const filas = S.plantilla.slice().sort((a, b) => ROLE_ORDER.indexOf(a.posicion || '') - ROLE_ORDER.indexOf(b.posicion || '')).map((p) => {
+    const filas = S.plantilla.slice().sort((a, b) => ROLE_ORDER.indexOf(roleCode(a)) - ROLE_ORDER.indexOf(roleCode(b))).map((p) => {
       const st = statsJugador(p.nombre);
-      return '<tr><td class="num">' + dorsal(p) + '</td><td><button class="linkish nombre2" data-jugador="' + esc(p.nombre) + '"><b>' + esc(p.nombre.split(' ')[0]) + '</b><span>' + esc(p.apellido != null ? p.apellido : (p.nombre.split(' ')[1] || '')) + (p.capitan ? ' (C)' : '') + '</span></button></td><td><span class="role ' + roleCls(p) + '">' + roleTxt(p) + '</span></td>' +
+      return '<tr><td class="num">' + dorsal(p) + '</td><td><button class="linkish nombre2" data-jugador="' + esc(p.nombre) + '"><b>' + esc(nombreCorto(p)) + '</b></button></td><td><span class="role ' + roleCls(p) + '">' + roleTxt(p) + '</span></td>' +
         '<td class="c">' + st.pj + '</td><td class="c">' + st.titular + '</td><td class="c">' + st.goles + '</td><td class="c">' + st.asist + '</td><td class="c">' + st.amarillas + ' / ' + st.rojas + '</td><td class="c">' + st.mvps + '</td><td class="c"><b>' + fmt1(st.media) + '</b></td><td>' + formaHTML(st.forma) + '</td></tr>';
     }).join('');
     const bajas = u && u.proximo && u.proximo.bajas;
@@ -285,8 +293,8 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
       '<div class="page-head"><div><span class="eyebrow eyebrow--accent">Equipo</span><h1 class="h1">Alineación y plantilla</h1></div>' +
       '<div class="seg" role="group" aria-label="Vista"><button data-view="alineacion" aria-pressed="' + (S.view === 'alineacion') + '">Alineación</button><button data-view="tabla" aria-pressed="' + (S.view === 'tabla') + '">Plantilla</button><button data-view="jugadores" aria-pressed="' + (S.view === 'jugadores') + '">Jugadores</button></div></div>' +
       (S.view === 'alineacion'
-        ? '<div class="row-wrap"><div class="pitch-col"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b>' + (u ? 'Once inicial · Jornada ' + u.jornada : 'Once inicial') + '</b><span class="pill pill--ink" style="font-family:var(--display);font-size:20px">' + sistema + '</span></div><div class="pitch">' + lines + pitch + '</div>' + (u ? '' : '<p class="muted">El once aparecerá cuando el míster envíe la primera crónica.</p>') + '</div>' +
-          '<div class="side-col">' + (u ? '<div class="card"><h2 class="h2" style="font-size:24px">Banquillo</h2>' + (banquillo.length ? banquillo.map((p) => '<button class="bench-row" data-jugador="' + esc(p.nombre) + '"><span class="n">' + dorsal(p) + '</span><span class="name">' + esc(p.nombre) + '</span><span class="role ' + roleCls(p) + '">' + roleTxt(p) + '</span></button>').join('') : '<p class="muted">Toda la plantilla salió de titular.</p>') + '</div>' : '') +
+        ? '<div class="row-wrap"><div class="pitch-col"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b>' + (u ? 'Alineación titular · Jornada ' + u.jornada : 'Alineación titular') + '</b><span class="pill pill--ink" style="font-family:var(--display);font-size:20px">' + sistema + '</span></div><div class="pitch">' + lines + pitch + '</div>' + (u ? '' : '<p class="muted">La alineación aparecerá cuando el míster envíe la primera crónica.</p>') + '</div>' +
+          '<div class="side-col">' + (u ? '<div class="card"><h2 class="h2" style="font-size:24px">Banquillo</h2>' + (banquillo.length ? banquillo.map((p) => '<button class="bench-row" data-jugador="' + esc(p.nombre) + '"><span class="n">' + dorsal(p) + '</span><span class="name">' + esc(nombreCorto(p)) + '</span><span class="role ' + roleCls(p) + '">' + roleTxt(p) + '</span></button>').join('') : '<p class="muted">Toda la plantilla salió de titular.</p>') + '</div>' : '') +
           '<div class="card"><h2 class="h2" style="font-size:24px">Notas del míster</h2><span class="muted" style="margin-top:-8px">Beltrán Lafuente Beltrán · Míster y capitán</span><p class="body2" style="font-size:14px;white-space:pre-line">' + esc(bajas || 'Sin avisos por ahora.') + '</p></div></div></div>' +
           '<div style="display:flex;flex-direction:column;gap:14px"><div class="carousel-head"><div><h2 class="h2" style="font-size:30px">Perfiles de jugadores</h2><span class="muted">' + S.plantilla.length + ' jugadores · pulsa una tarjeta para ver su historial</span></div><div class="arrows"><button class="icon-btn" data-car="-1" aria-label="Anteriores">' + ICON.left + '</button><button class="icon-btn" data-car="1" aria-label="Siguientes">' + ICON.right + '</button></div></div><div class="carousel" id="carousel">' + perfiles + '</div></div>'
         : S.view === 'jugadores'
@@ -305,10 +313,10 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
     const goleadores = S.plantilla.filter((p) => c.jugadores[p.nombre] && c.jugadores[p.nombre].goles).map((p) => esc(nombreCorto(p)) + (c.jugadores[p.nombre].goles > 1 ? ' (' + c.jugadores[p.nombre].goles + ')' : ''));
     const parrafos = c.resumen.split(/\n\s*\n|\n/).filter((x) => x.trim()).map((x) => '<p class="body2">' + esc(x) + '</p>').join('');
     const jugaron = S.plantilla.filter((p) => c.jugadores[p.nombre] && c.jugadores[p.nombre].jugo)
-      .sort((a, b) => (c.jugadores[b.nombre].titular - c.jugadores[a.nombre].titular) || (ROLE_ORDER.indexOf(a.posicion || '') - ROLE_ORDER.indexOf(b.posicion || '')));
+      .sort((a, b) => (c.jugadores[b.nombre].titular - c.jugadores[a.nombre].titular) || (ROLE_ORDER.indexOf(roleCode(a)) - ROLE_ORDER.indexOf(roleCode(b))));
     const ratings = jugaron.map((p) => {
       const d = c.jugadores[p.nombre], isMvp = norm(c.mvp) === norm(p.nombre);
-      return '<button class="rcard' + (isMvp ? ' rcard--mvp' : '') + '" data-jugador="' + esc(p.nombre) + '"><span class="rcard__head"><span class="num-badge">' + dorsal(p) + '</span><span><b>' + esc(p.nombre) + '</b><span class="muted" style="font-size:12px">' + roleTxt(p) + (d.titular ? ' · Titular' : ' · Suplente') + (isMvp ? ' · MVP' : '') + '</span></span><span class="rcard__nota">' + fmt1(d.nota) + '</span></span>' +
+      return '<button class="rcard' + (isMvp ? ' rcard--mvp' : '') + '" data-jugador="' + esc(p.nombre) + '"><span class="rcard__head"><span class="num-badge">' + dorsal(p) + '</span><span><b>' + esc(nombreCorto(p)) + '</b><span class="muted" style="font-size:12px">' + roleTxt(p) + (d.titular ? ' · Titular' : ' · Suplente') + (isMvp ? ' · MVP' : '') + '</span></span><span class="rcard__nota">' + fmt1(d.nota) + '</span></span>' +
         '<span class="trio"><span><b>' + d.goles + '</b><small>Goles</small></span><span><b>' + d.asist + '</b><small>Asist.</small></span><span><b>' + (d.roja ? 'Roja' : d.amarilla ? 'Amarilla' : '–') + '</b><small>Tarjetas</small></span></span>' +
         (d.comentario ? '<span class="body2" style="font-size:14px">' + esc(d.comentario) + '</span>' : '') +
         '<span class="rcard__more">Ver historial de crónicas' + ICON.right.replace('width="20" height="20"', 'width="14" height="14"') + '</span></button>';
@@ -372,7 +380,7 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
         '<div class="rasca__prize" aria-hidden="true">' +
         '<span class="rasca__icon">' + (mvp ? TROFEO : TOSTADA) + '</span>' +
         '<span class="rasca__label">' + (mvp ? 'MVP de la jornada ' : 'El más tostao · Jornada ') + c.jornada + '</span>' +
-        '<span class="rasca__name">' + esc(p.nombre) + (p.capitan ? ' (C)' : '') + '</span>' +
+        '<span class="rasca__name">' + esc(nombreCorto(p)) + '</span>' +
         '<span class="rasca__meta">' + (dorsal(p) !== '–' ? 'Dorsal ' + dorsal(p) + ' · ' : '') + 'Nota ' + fmt1(d.nota) + '</span>' +
         (d.comentario ? '<span class="rasca__quote">«' + esc(d.comentario) + '»</span>' : '') +
         '<button class="linkish rasca__more" data-jugador="' + esc(p.nombre) + '" tabindex="-1">Ver su historial</button>' +
@@ -465,7 +473,7 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
   // ── historial (modal) ─────────────────────────────────────
   let lastFocus = null;
   function fichaHTML(p) {
-    const filas = [['Posición', p.posicion ? ROLE_NAME[p.posicion] : 'Por definir'], ['Apodo', p.apodo]].filter((x) => x[1]);
+    const filas = [['Posición', roleNombre(p)]].filter((x) => x[1]);
     return '<div class="ficha"><div class="ficha__datos">' + filas.map((x) => '<span><small>' + x[0] + '</small><b>' + esc(x[1]) + '</b></span>').join('') + '</div>' +
       (p.descripcion ? '<div><small>Resumen</small><p>' + esc(p.descripcion) + '</p></div>' : '') +
       (p.mo ? '<div><small>Modus operandi</small><p>' + esc(p.mo) + '</p></div>' : '') +
@@ -477,7 +485,7 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
     const st = statsJugador(p.nombre);
     const hist = S.cronicas.filter((c) => c.jugadores[p.nombre] && c.jugadores[p.nombre].jugo).slice().reverse();
     const box = $('#modal .modal__box');
-    box.innerHTML = '<div class="modal__head"><span class="num-badge num-badge--accent">' + dorsal(p) + '</span><div><span class="eyebrow">Perfil del jugador</span><span class="modal__title" id="modal-title">' + esc(p.nombre) + (p.capitan ? ' (C)' : '') + '</span><span style="font-size:13px;color:#C9CDD4">' + (p.posicion ? ROLE_NAME[p.posicion] : 'Posición por definir') + ' · Temporada ' + esc(CFG.temporada) + '</span></div><button class="icon-btn icon-btn--light" data-close aria-label="Cerrar historial">' + ICON.close + '</button></div>' +
+    box.innerHTML = '<div class="modal__head"><span class="num-badge num-badge--accent">' + dorsal(p) + '</span><div><span class="eyebrow">Perfil del jugador</span><span class="modal__title" id="modal-title">' + esc(nombreCorto(p)) + '</span><span style="font-size:13px;color:#C9CDD4">' + esc(p.nombre) + ' · ' + roleNombre(p) + ' · Temporada ' + esc(CFG.temporada) + '</span></div><button class="icon-btn icon-btn--light" data-close aria-label="Cerrar historial">' + ICON.close + '</button></div>' +
       '<div class="modal__body">' + fichaHTML(p) + '<div class="stats">' + [['Nota media', fmt1(st.media)], ['Partidos', st.pj], ['Goles', st.goles], ['Asistencias', st.asist], ['Veces MVP', st.mvps]].map((x) => '<div class="stat"><b style="font-size:28px">' + x[1] + '</b><span>' + x[0] + '</span></div>').join('') + '</div>' +
       '<div><h3 class="h2" style="font-size:22px;margin-bottom:6px">Jornada a jornada</h3>' + (hist.length ? hist.map((c) => {
         const d = c.jugadores[p.nombre];
