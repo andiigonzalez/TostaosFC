@@ -363,3 +363,27 @@ td.num { font-family: var(--display); font-weight: 800; font-size: 20px; }
 
  .role.DEF-BAN { background: #C9DCF2; } .role.MED-BAN { background: #C6E9D2; }
  .pcard__full { display: block; font-size: 12px; color: var(--muted); margin-top: -2px; }
+/* Calendario: etiqueta "Por confirmar" / "Aplazado" */
+.pill--aviso { background: #FDE8C8; color: #7A3500; }
+
+/* ===================== PERFILES DE JUGADORES ===================== */
+/* Arriba: nombre corto + posición a la izquierda, dorsal a la derecha */
+.pcard__top { height: auto; min-height: 130px; padding: 20px; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; position: relative; overflow: hidden; }
+.pcard__top img.foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .35; }
+.pcard__id { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 10px; min-width: 0; flex: 1 1 auto; overflow: hidden; }
+.pcard__top .pcard__name { font-family: var(--display); font-weight: 800; font-size: 30px; line-height: 1; color: #fff; white-space: nowrap; overflow: hidden; }
+.pcard__cap { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 999px; background: var(--accent); color: var(--ink); font-family: var(--body); font-size: 13px; font-weight: 800; vertical-align: middle; position: relative; top: -3px; }
+.pcard__pos { font-size: 16px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.pcard__num { position: relative; z-index: 1; font-family: var(--display); font-weight: 800; font-size: 64px; line-height: .85; color: var(--accent); flex-shrink: 0; }
+/* Abajo: nombre completo centrado, cuadrados y descripción con aire */
+.pcard__body { gap: 0; padding: 18px 18px 22px; }
+.pcard__full { display: block; font-size: 14px; font-weight: 600; color: var(--muted); margin: 0; text-align: center; }
+.pcard .mini-stats { margin: 14px 0 16px; }
+.pcard p { margin: 0; line-height: 1.5; }
+
+/* Ficha dentro del historial */
+.ficha { display: flex; flex-direction: column; gap: 12px; }
+.ficha__datos { display: flex; flex-wrap: wrap; gap: 8px; }
+.ficha__datos span { background: var(--ground); border-radius: 10px; padding: 8px 12px; display: flex; flex-direction: column; }
+.ficha small { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.ficha p { font-size: 14px; color: var(--text-2); }
