@@ -127,6 +127,33 @@ function crearFormulario() {
   Logger.log('Editar formulario: ' + form.getEditUrl());
   Logger.log('Hoja de respuestas: ' + hoja.getUrl());
 }
+----------------------------- FORMULARIO CRÓNICAS -----------------------------------------------------------
 ## mister: https://docs.google.com/forms/d/e/1FAIpQLSdExrvDrF_BZZ18lkEVfJnv73TNVGG1hdFAJmmmfHxW6qFRmw/viewform
 ## Editar formulario: https://docs.google.com/forms/d/14BhZk8-Ia04ycePx8-5t9k6IrmtzfbPEYmYcjL7Af4E/edit
 ## Hoja de respuestas: https://docs.google.com/spreadsheets/d/1UF64MQTzSgda_0nKgW2xl05h8vy6kBPnPK6Vi98ctXo/edit
+---------------------------------------------------- -----------------------------------------------------------
+function crearFormularioCalendario() {
+  const form = FormApp.create('Tostaos F.C. · Calendario');
+  form.setDescription('Añade o cambia un partido del calendario. Para cambiar uno, envíalo otra vez con el mismo número de jornada. Para quitarlo, marca "Cancelado".');
+  form.setCollectEmail(false);
+  form.setAllowResponseEdits(true);
+  const numero = FormApp.createTextValidation().setHelpText('Escribe solo un número').requireNumber().build();
+  form.addTextItem().setTitle('Jornada').setRequired(true).setValidation(numero);
+  form.addDateItem().setTitle('Fecha').setRequired(true);
+  form.addTimeItem().setTitle('Hora');
+  form.addTextItem().setTitle('Rival').setRequired(true);
+  form.addTextItem().setTitle('Campo');
+  form.addMultipleChoiceItem().setTitle('Estado')
+    .setChoiceValues(['Confirmado', 'Por confirmar', 'Aplazado', 'Cancelado']).setRequired(true);
+  form.addTextItem().setTitle('Notas').setHelpText('Opcional: "Cambio de hora", "Por lluvia", "Quedamos 30 min antes"…');
+  const hoja = SpreadsheetApp.create('Tostaos F.C. · Calendario (respuestas)');
+  form.setDestination(FormApp.DestinationType.SPREADSHEET, hoja.getId());
+  Logger.log('Formulario de calendario para el míster: ' + form.getPublishedUrl());
+  Logger.log('Editar formulario de calendario: ' + form.getEditUrl());
+  Logger.log('Hoja de respuestas del calendario: ' + hoja.getUrl());
+}
+
+----------------------------------FORMULARIO CALENDARIO---------------------------------------------------
+# Míster: https://docs.google.com/forms/d/e/1FAIpQLSeQBkMn_ffWed9QKy0V1mSp5TGymA5A1DjWgJULdgUV_9G6GQ/viewform
+# Editar formulario de calendario: https://docs.google.com/forms/d/1-jMg0-4INsLRiroFfubyzrM_6PVtBR3vRibO8ZBX57E/edit
+# Hoja de respuestas del calendario: https://docs.google.com/spreadsheets/d/1F9O-Wsp7NiRrRrxwTlonZwGEue-ukGtQzr0ojku3nJ8/edit
