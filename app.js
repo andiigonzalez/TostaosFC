@@ -7,13 +7,13 @@
 
   // Títulos de las preguntas del formulario (idénticos a crear-formulario.gs)
   const Q = {
-    jornada: 'Jornada', fecha: 'Fecha del partido', rival: 'Rival', localia: '¿Local o visitante?', campo: 'Campo',
+    jornada: 'Jornada', fecha: 'Fecha del partido', rival: 'Rival', campo: 'Campo',
     gf: 'Goles de Tostaos', gc: 'Goles del rival', resumen: 'Resumen del partido', momentos: 'Momentos clave',
     sistema: 'Sistema', titulares: 'Once titular',
     nota: 'Nota de cada jugador', goles: 'Goles de cada jugador', asist: 'Asistencias de cada jugador', tarjetas: 'Tarjetas',
     mvp: 'MVP del partido', comentarios: 'Comentario sobre cada jugador',
     pFecha: 'Próximo partido: fecha', pHora: 'Próximo partido: hora', pRival: 'Próximo partido: rival',
-    pLocalia: 'Próximo partido: ¿local o visitante?', pCampo: 'Próximo partido: campo', pSistema: 'Próximo partido: sistema previsto',
+    pCampo: 'Próximo partido: campo', pSistema: 'Próximo partido: sistema previsto',
     estrategia: 'Estrategia del míster', claves: 'Claves del partido', bajas: 'Bajas y avisos', peor: 'Peor del partido'
   };
 
@@ -170,7 +170,7 @@
         jornada: j, fecha: g(Q.fecha), rival: g(Q.rival) || '[Rival]', local: true, campo: g(Q.campo),
         gf, gc, res: gf > gc ? 'V' : gf === gc ? 'E' : 'D', resumen: g(Q.resumen), momentos,
         sistema: g(Q.sistema), titulares, jugadores, mvp: g(Q.mvp), peor: g(Q.peor),
-        proximo: { fecha: g(Q.pFecha), hora: g(Q.pHora), rival: g(Q.pRival), localia: g(Q.pLocalia), campo: g(Q.pCampo), sistema: g(Q.pSistema), estrategia: g(Q.estrategia), claves: g(Q.claves), bajas: g(Q.bajas) }
+        proximo: { fecha: g(Q.pFecha), hora: g(Q.pHora), rival: g(Q.pRival), campo: g(Q.pCampo), sistema: g(Q.pSistema), estrategia: g(Q.estrategia), claves: g(Q.claves), bajas: g(Q.bajas) }
       }; // si se reenvía la misma jornada, gana el último envío
     });
     return Object.values(byJ).sort((a, b) => a.jornada - b.jornada);
@@ -194,8 +194,16 @@
   const jugador = (nombre) => S.plantilla.find((p) => norm(p.nombre) === norm(nombre));
   const dorsal = (p) => (p && p.dorsal != null && p.dorsal !== '' ? p.dorsal : '–');
   const nombreCorto = (p) => (p ? (p.corto || p.nombre) + (p.capitan ? ' (C)' : '') : '');
-  const roleCls = (p) => (p && p.posicion ? p.posicion : 'X');
-  const roleTxt = (p) => (p && p.posicion ? ROLE_NAME[p.posicion] : 'Por definir');
+  const roleCode = (p) => {if (!p || !p.posicion) return ''; return ROLE_CODE[norm(p.posicion)] || '';};
+
+const roleGroup = (p) => {const code = roleCode(p); return ROLE_GROUP[code] || '';};
+const roleCls = (p) => roleCode(p) || 'X';
+
+// Etiqueta corta visible: POR, DEF, DEF-BAN, MED, MED-BAN o DEL
+const roleTxt = (p) => roleCode(p) || 'Por definir';
+
+// Nombre completo para la ficha individual
+const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code] : 'Por definir';};
   const formaHTML = (forma) => '<span class="form">' + forma.map((n) => {
     const cls = n == null ? '' : n >= 7 ? 'hi' : n >= 5 ? 'mid' : 'lo';
     return '<i class="' + cls + '" title="' + (n == null ? 'No jugó' : 'Nota ' + fmt1(n)) + '"></i>';
