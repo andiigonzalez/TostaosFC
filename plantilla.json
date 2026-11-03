@@ -1,20 +1,10 @@
 [
-  {
-    "nombre": "Pablo Corredoira",
-    "corto": "P. Corredoira",
-    "dorsal": 1,
-    "posicion": "POR",
-    "capitan": false,
-    "foto": "",
+  {"nombre": "Pablo Corredoira", "corto": "P. Corredoira", "dorsal": 1,
+    "posicion": "Portero", "capitan": false,"foto": "",
     "descripcion": "Este portero dedica a defender. Fuera del campo con la ley y dentro con su cuerpo."
   },
-  {
-    "nombre": "Beltrán Lafuente",
-    "corto": "B. Lafuente",
-    "dorsal": 10,
-    "posicion": "Mediocentro",
-    "capitan": true,
-    "foto": "",
+  {"nombre": "Beltrán Lafuente","corto": "B. Lafuente","dorsal": 10,
+    "posicion": "Mediocentro", "capitan": true, "foto": "",
     "descripcion": "Míster, capitán y centrocampista zurdo. Juega con el 10 por Messi, del que es fan absoluto. Jugó un año en Primera División en España, en Segunda División con el Pisa y en Islandia con el UMF Skallagrímur."
   },
   { "nombre": "Gonzalo Mestanza", "corto": "G. Mestanza", "dorsal": 77, "posicion": "Mediocentro", "capitan": false, "foto": "", "descripcion": "" },
@@ -31,5 +21,5 @@
   { "nombre": "Jacobo Pérez-Pla", "corto": "J. Pérez-Pla", "dorsal": 7, "posicion": "Defensa banda", "capitan": false, "foto": "", "descripcion": "" },
   { "nombre": "Jaime Salafranca", "corto": "J. Salafranca", "dorsal": 5, "posicion": "Defensa", "capitan": false, "foto": "", "descripcion": "" },
   { "nombre": "Javier Rodríguez-Moneu", "corto": "J. Rodríguez-Moneu", "dorsal": 4 , "posicion": "Defensa", "capitan": false, "foto": "", "descripcion": "" },
-  { "nombre": "Yago Tomé", "corto": "Y. Tomé", "dorsal": 30 , "posicion": "Mediocentro", "capitan": false, "foto": "", "descripcion": "" },
+  { "nombre": "Yago Tomé", "corto": "Y. Tomé", "dorsal": 30 , "posicion": "Mediocentro", "capitan": false, "foto": "", "descripcion": "" }
 ]
