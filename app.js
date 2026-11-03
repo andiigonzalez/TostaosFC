@@ -20,10 +20,42 @@
   const FORMACIONES = {
     '4-3-3': [['POR', 50, 88, 'POR'], ['LD', 85, 68, 'DEF'], ['DFC', 62, 72, 'DEF'], ['DFC', 38, 72, 'DEF'], ['LI', 15, 68, 'DEF'], ['MC', 72, 47, 'MED'], ['MCD', 50, 53, 'MED'], ['MC', 28, 47, 'MED'], ['ED', 82, 20, 'DEL'], ['DC', 50, 14, 'DEL'], ['EI', 18, 20, 'DEL']],
     '4-4-2': [['POR', 50, 88, 'POR'], ['LD', 85, 68, 'DEF'], ['DFC', 62, 72, 'DEF'], ['DFC', 38, 72, 'DEF'], ['LI', 15, 68, 'DEF'], ['MD', 85, 43, 'MED'], ['MC', 62, 48, 'MED'], ['MC', 38, 48, 'MED'], ['MI', 15, 43, 'MED'], ['DC', 63, 16, 'DEL'], ['DC', 37, 16, 'DEL']],
-    '3-5-2': [['POR', 50, 88, 'POR'], ['DFC', 74, 71, 'DEF'], ['DFC', 50, 74, 'DEF'], ['DFC', 26, 71, 'DEF'], ['CAD', 87, 44, 'MED'], ['MC', 66, 46, 'MED'], ['MCD', 50, 55, 'MED'], ['MC', 34, 46, 'MED'], ['CAI', 13, 44, 'MED'], ['DC', 63, 16, 'DEL'], ['DC', 37, 16, 'DEL']]
-  };
-  const ROLE_ORDER = ['POR', 'DEF', 'MED', 'DEL', ''];
-  const ROLE_NAME = { POR: 'Portero', DEF: 'Defensa', MED: 'Centrocampista', DEL: 'Delantero', '': 'Por definir' };
+    '3-5-2': [['POR', 50, 88, 'POR'], ['DFC', 74, 71, 'DEF'], ['DFC', 50, 74, 'DEF'], ['DFC', 26, 71, 'DEF'], ['CAD', 87, 44, 'MED'], ['MC', 66, 46, 'MED'], ['MCD', 50, 55, 'MED'], ['MC', 34, 46, 'MED'], ['CAI', 13, 44, 'MED'], ['DC', 63, 16, 'DEL'], ['DC', 37, 16, 'DEL']],
+    '4-2-3-1': [['POR', 50, 88, 'POR'], ['LD', 85, 68, 'DEF'], ['DFC', 62, 72, 'DEF'], ['DFC', 38, 72, 'DEF'],['LI', 15, 68, 'DEF'],['MCD', 63, 53, 'MED'],['MCD', 37, 53, 'MED'], ['MD', 82, 33, 'MED'], ['MCO', 50, 36, 'MED'],['MI', 18, 33, 'MED'],['DC', 50, 14, 'DEL'] ],
+    '4-1-4-1': [['POR', 50, 88, 'POR'], ['LD', 85, 68, 'DEF'], ['DFC', 62, 72, 'DEF'],['DFC', 38, 72, 'DEF'], ['LI', 15, 68, 'DEF'],['MCD', 50, 56, 'MED'],['MD', 85, 38, 'MED'], ['MC', 62, 42, 'MED'], ['MC', 38, 42, 'MED'], ['MI', 15, 38, 'MED'],['DC', 50, 14, 'DEL'] ],
+    '3-4-3': [ ['POR', 50, 88, 'POR'], ['DFC', 74, 71, 'DEF'],  ['DFC', 50, 74, 'DEF'], ['DFC', 26, 71, 'DEF'], ['MD', 85, 45, 'MED'], ['MC', 62, 49, 'MED'],['MC', 38, 49, 'MED'],['MI', 15, 45, 'MED'], ['ED', 82, 20, 'DEL'],['DC', 50, 14, 'DEL'],['EI', 18, 20, 'DEL'] ],
+    '3-4-2-1': [ ['POR', 50, 88, 'POR'], ['DFC', 74, 71, 'DEF'], ['DFC', 50, 74, 'DEF'], ['DFC', 26, 71, 'DEF'], ['MD', 85, 48, 'MED'], ['MC', 62, 52, 'MED'],['MC', 38, 52, 'MED'], ['MI', 15, 48, 'MED'], ['MCO', 65, 31, 'MED'], ['MCO', 35, 31, 'MED'], ['DC', 50, 13, 'DEL'] ],
+    '5-3-2': [ ['POR', 50, 88, 'POR'], ['CAD', 88, 62, 'DEF'], ['DFC', 70, 72, 'DEF'], ['DFC', 50, 75, 'DEF'], ['DFC', 30, 72, 'DEF'],['CAI', 12, 62, 'DEF'], ['MC', 70, 45, 'MED'], ['MCD', 50, 51, 'MED'],  ['MC', 30, 45, 'MED'], ['DC', 63, 16, 'DEL'], ['DC', 37, 16, 'DEL'] ]
+};
+  const ROLE_ORDER = ['POR', 'DEF', 'DEF-BAN', 'MED', 'MED-BAN', 'DEL', ''];
+
+   const ROLE_NAME = {
+     POR: 'Portero',
+     DEF: 'Defensa',
+     'DEF-BAN': 'Defensa banda',
+     MED: 'Mediocentro',
+     'MED-BAN': 'Mediocentro banda',
+     DEL: 'Delantero',
+     '': 'Por definir'
+   };
+   
+   const ROLE_CODE = {
+     'portero': 'POR',
+     'defensa': 'DEF',
+     'defensa banda': 'DEF-BAN',
+     'mediocentro': 'MED',
+     'mediocentro banda': 'MED-BAN',
+     'delantero': 'DEL'
+   };
+
+   const ROLE_GROUP = {
+     POR: 'POR',
+     DEF: 'DEF',
+     'DEF-BAN': 'DEF',
+     MED: 'MED',
+     'MED-BAN': 'MED',
+     DEL: 'DEL'
+   };
 
   const S = { tab: 'inicio', view: 'alineacion', filtro: 'todos', jornadaSel: null, plantilla: [], calendario: [], cronicas: [] };
 
@@ -98,10 +130,10 @@
     const limpio = (t) => norm(t).replace(/[-.]/g, ' ').replace(/\s+/g, ' ').trim();
     const quien = (txt) => {
       const k = limpio(txt); if (!k) return null;
-      let c = S.plantilla.filter((p) => [p.nombre, p.corto, p.apodo, p.apellido].filter(Boolean).some((n) => limpio(n) === k));
+      let c = S.plantilla.filter((p) => [p.nombre, p.corto, p.dorsal].filter(Boolean).some((n) => limpio(n) === k));
       if (c.length === 1) return c[0];
       const palabras = k.split(' ');
-      c = S.plantilla.filter((p) => { const w = limpio([p.nombre, p.apellido, p.corto, p.apodo].filter(Boolean).join(' ')).split(' '); return palabras.every((x) => w.includes(x)); });
+      c = S.plantilla.filter((p) => { const w = limpio([p.nombre, p.corto, p.dorsal].filter(Boolean).join(' ')).split(' '); return palabras.every((x) => w.includes(x)); });
       return c.length === 1 ? c[0] : null;
     };
     rows.forEach((row) => {
@@ -230,7 +262,7 @@
     const perfiles = S.plantilla.slice().sort((a, b) => (b.capitan ? 1 : 0) - (a.capitan ? 1 : 0)).map((p) => {
       const st = statsJugador(p.nombre);
       return '<button class="pcard" data-jugador="' + esc(p.nombre) + '"><span class="pcard__top">' + (p.foto ? '<img class="foto" src="' + esc(p.foto) + '" alt="">' : ICON.person) + '<span class="pcard__num">' + dorsal(p) + '</span></span>' +
-        '<span class="pcard__body"><span><span class="pcard__name">' + esc(p.nombre) + (p.capitan ? ' (C)' : '') + '</span>' + (p.apodo ? '<span class="pcard__apodo">«' + esc(p.apodo) + '»</span>' : '') + '<span class="pcard__meta"><span class="role ' + roleCls(p) + '">' + roleTxt(p) + '</span>' + [p.edad ? p.edad + ' años' : '', p.pie].filter(Boolean).map(esc).join(' · ') + '</span></span>' +
+        '<span class="pcard__body"><span><span class="pcard__name">' + esc(p.nombre) + (p.capitan ? ' (C)' : '') + '</span>' + (p.apodo ? '<span class="pcard__apodo">«' + esc(p.apodo) + '»</span>' : '') + '<span class="pcard__meta"><span class="role ' + roleCls(p) + '">' + roleTxt(p) + '</span></span>' +
         '<span class="mini-stats"><span><b>' + st.pj + '</b><small>Partidos</small></span><span><b>' + fmt1(st.media) + '</b><small>Nota media</small></span><span><b>' + st.goles + '</b><small>Goles</small></span><span><b>' + st.asist + '</b><small>Asistencias</small></span></span>' +
         (p.mo ? '<span class="pcard__mo"><small>Modus operandi</small>' + esc(p.mo) + '</span>' : '') + (p.descripcion ? '<p>' + esc(p.descripcion) + '</p>' : '') + '</span></button>';
     }).join('');
@@ -425,7 +457,7 @@
   // ── historial (modal) ─────────────────────────────────────
   let lastFocus = null;
   function fichaHTML(p) {
-    const filas = [['Posición', p.posicion ? ROLE_NAME[p.posicion] : 'Por definir'], ['Pie', p.pie], ['Edad', p.edad ? p.edad + ' años' : ''], ['Apodo', p.apodo]].filter((x) => x[1]);
+    const filas = [['Posición', p.posicion ? ROLE_NAME[p.posicion] : 'Por definir'], ['Apodo', p.apodo]].filter((x) => x[1]);
     return '<div class="ficha"><div class="ficha__datos">' + filas.map((x) => '<span><small>' + x[0] + '</small><b>' + esc(x[1]) + '</b></span>').join('') + '</div>' +
       (p.descripcion ? '<div><small>Resumen</small><p>' + esc(p.descripcion) + '</p></div>' : '') +
       (p.mo ? '<div><small>Modus operandi</small><p>' + esc(p.mo) + '</p></div>' : '') +
