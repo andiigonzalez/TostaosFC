@@ -96,7 +96,7 @@
     if (cell !== '' || row.length) { row.push(cell); rows.push(row); }
     const head = (rows.shift() || []).map((h) => h.trim());
     return rows.filter((r) => r.some((c) => c.trim() !== '')).map((r) => {
-      const o = {}; head.forEach((h, i) => { o[h] = (r[i] || '').trim(); }); return o;
+      const o = {}; head.forEach((h, i) => { const v = (r[i] || '').trim(); if (v !== '' || !(h in o)) o[h] = v; }); return o;
     });
   }
 
@@ -154,12 +154,14 @@
       });
       const jugadores = {};
       S.plantilla.forEach((p) => {
-        const notaRaw = g(Q.nota, p.nombre);
-        const jugo = notaRaw !== '' && norm(notaRaw) !== 'no jugo';
+        const notaRaw = g('Nota: ' + p.nombre) || g(Q.nota, p.nombre);       // nota escrita a mano (o la tabla antigua)
+        const notaNum = parseFloat(String(notaRaw).replace(',', '.'));
+        const esTitular = titulares.some((t) => norm(t) === norm(p.nombre));
+        const jugo = (notaRaw !== '' && norm(notaRaw) !== 'no jugo') || esTitular;
         const tarj = g(Q.tarjetas, p.nombre);
         const com = g('Comentario: ' + p.nombre) || comentarios[p.nombre] || '';
         jugadores[p.nombre] = {
-          jugo, nota: jugo ? parseFloat(notaRaw.replace(',', '.')) : null,
+          jugo, nota: jugo && !isNaN(notaNum) ? notaNum : null,
           goles: toInt(g(Q.goles, p.nombre)), asist: toInt(g(Q.asist, p.nombre)),
           amarilla: /amarilla/i.test(tarj), roja: /roja/i.test(tarj),
           titular: titulares.some((t) => norm(t) === norm(p.nombre)), comentario: com
@@ -240,7 +242,7 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
       (u ? '<div class="card"><span class="eyebrow">Último partido · Jornada ' + u.jornada + '</span><div class="score-line"><strong>' + (u.local ? 'Tostaos F.C.' : esc(u.rival)) + '</strong><span class="score-box">' + (u.local ? u.gf + ' – ' + u.gc : u.gc + ' – ' + u.gf) + '</span><strong style="text-align:right">' + (u.local ? esc(u.rival) : 'Tostaos F.C.') + '</strong></div><span class="muted">' + fechaLarga(u.fecha) + (u.campo ? ' · ' + esc(u.campo) : '') + ' <span class="result-tag ' + u.res + '">' + ({ V: 'Victoria', E: 'Empate', D: 'Derrota' })[u.res] + '</span></span></div>'
         : '<div class="card"><span class="eyebrow">Último partido</span><p class="muted">Todavía no hay crónicas. Aparecerá aquí en cuanto el míster rellene el formulario.</p></div>') +
       (n ? '<div class="card card--accent"><span class="eyebrow eyebrow--accent">Próximo partido · Jornada ' + n.jornada + '</span><div><div class="h2" style="font-size:30px">' + partidoTitulo(n.local, n.rival).replace(/<\/?span>/g, '') + '</div><span class="muted">' + esc(n.fecha) + ' · ' + esc(n.hora) + ' · ' + esc(n.campo) + '</span></div><a class="btn" style="align-self:flex-start" href="#calendario">Ver calendario</a></div>'
-        : '<div class="card card--accent"><span class="eyebrow eyebrow--accent">Próximo partido</span><p class="muted">Añade los partidos en calendario.json.</p></div>') +
+        : '<div class="card card--accent"><span class="eyebrow eyebrow--accent">Próximo partido</span><p class="muted">El míster aún no ha añadido el próximo partido.</p></div>') +
       '</div>' + premiosHTML(u) +
       '<div class="card"><h2 class="h2">Temporada en números</h2><div class="stats">' +
       [['Partidos', t.pj], ['Victorias', t.v], ['Empates', t.e], ['Derrotas', t.d], ['Goles a favor', t.gf], ['Goles en contra', t.gc]].map((x) => '<div class="stat"><b>' + x[1] + '</b><span>' + x[0] + '</span></div>').join('') +
