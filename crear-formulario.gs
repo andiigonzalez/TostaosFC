@@ -175,9 +175,9 @@ function crearFormulario() {
   Logger.log('Hoja de respuestas: ' + hoja.getUrl());
 }
 ----------------------------- FORMULARIO CRÓNICAS -----------------------------------------------------------
-## mister: https://docs.google.com/forms/d/e/1FAIpQLSdExrvDrF_BZZ18lkEVfJnv73TNVGG1hdFAJmmmfHxW6qFRmw/viewform
-## Editar formulario: https://docs.google.com/forms/d/14BhZk8-Ia04ycePx8-5t9k6IrmtzfbPEYmYcjL7Af4E/edit
-## Hoja de respuestas: https://docs.google.com/spreadsheets/d/1UF64MQTzSgda_0nKgW2xl05h8vy6kBPnPK6Vi98ctXo/edit
+// mister: https://docs.google.com/forms/d/e/1FAIpQLSdExrvDrF_BZZ18lkEVfJnv73TNVGG1hdFAJmmmfHxW6qFRmw/viewform
+// Editar formulario: https://docs.google.com/forms/d/14BhZk8-Ia04ycePx8-5t9k6IrmtzfbPEYmYcjL7Af4E/edit
+// Hoja de respuestas: https://docs.google.com/spreadsheets/d/1UF64MQTzSgda_0nKgW2xl05h8vy6kBPnPK6Vi98ctXo/edit
 ---------------------------------------------------- -----------------------------------------------------------
 function crearFormularioCalendario() {
   const form = FormApp.create('Tostaos F.C. · Calendario');
@@ -201,6 +201,6 @@ function crearFormularioCalendario() {
 }
 
 ----------------------------------FORMULARIO CALENDARIO---------------------------------------------------
-# Míster: https://docs.google.com/forms/d/e/1FAIpQLSeQBkMn_ffWed9QKy0V1mSp5TGymA5A1DjWgJULdgUV_9G6GQ/viewform
-# Editar formulario de calendario: https://docs.google.com/forms/d/1-jMg0-4INsLRiroFfubyzrM_6PVtBR3vRibO8ZBX57E/edit
-# Hoja de respuestas del calendario: https://docs.google.com/spreadsheets/d/1F9O-Wsp7NiRrRrxwTlonZwGEue-ukGtQzr0ojku3nJ8/edit
+// Míster: https://docs.google.com/forms/d/e/1FAIpQLSeQBkMn_ffWed9QKy0V1mSp5TGymA5A1DjWgJULdgUV_9G6GQ/viewform
+// Editar formulario de calendario: https://docs.google.com/forms/d/1-jMg0-4INsLRiroFfubyzrM_6PVtBR3vRibO8ZBX57E/edit
+// Hoja de respuestas del calendario: https://docs.google.com/spreadsheets/d/1F9O-Wsp7NiRrRrxwTlonZwGEue-ukGtQzr0ojku3nJ8/edit
