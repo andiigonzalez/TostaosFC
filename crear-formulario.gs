@@ -228,8 +228,8 @@ function crearFormulario() {
   Logger.log('Hoja de respuestas: ' + hoja.getUrl());
 }
 // FORMULARIO CRÓNICAS
-// mister: https://docs.google.com/forms/d/e/1FAIpQLSdExrvDrF_BZZ18lkEVfJnv73TNVGG1hdFAJmmmfHxW6qFRmw/viewform
-// Editar formulario: https://docs.google.com/forms/d/14BhZk8-Ia04ycePx8-5t9k6IrmtzfbPEYmYcjL7Af4E/edit
+// mister: https://docs.google.com/forms/d/e/1FAIpQLScC-fWrzBNuDTSE0jm_hBonvYk_X6reWYeNufNkE-8Jxl1JMg/viewform
+// Editar formulario: https://docs.google.com/forms/d/1ITeunGTmhKFexwmfagyUhY00zxMHb97egp3H1LMasFc/edit
 // Hoja de respuestas: https://docs.google.com/spreadsheets/d/1UF64MQTzSgda_0nKgW2xl05h8vy6kBPnPK6Vi98ctXo/edit
 // 
 function crearFormularioCalendario() {
