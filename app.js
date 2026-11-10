@@ -8,13 +8,13 @@
   // Títulos de las preguntas del formulario (idénticos a crear-formulario.gs)
   const Q = {
     jornada: 'Jornada', fecha: 'Fecha del partido', rival: 'Rival', campo: 'Campo',
-    gf: 'Goles de Tostaos', gc: 'Goles del rival', resumen: 'Resumen del partido', momentos: 'Momentos clave',
+    gf: 'Goles de Tostaos', gc: 'Goles del rival', resumen: 'Resumen del partido',
     sistema: 'Sistema', titulares: 'Once titular',
     nota: 'Nota de cada jugador', goles: 'Goles de cada jugador', asist: 'Asistencias de cada jugador', tarjetas: 'Tarjetas',
     mvp: 'MVP del partido', comentarios: 'Comentario sobre cada jugador',
     pFecha: 'Próximo partido: fecha', pHora: 'Próximo partido: hora', pRival: 'Próximo partido: rival',
     pCampo: 'Próximo partido: campo', pSistema: 'Próximo partido: sistema previsto',
-    estrategia: 'Estrategia del míster', claves: 'Claves del partido', bajas: 'Bajas y avisos', peor: 'Peor del partido'
+    estrategia: 'Estrategia del míster', bajas: 'Bajas y avisos'
   };
 
   // Fútbol 7: portero + 6 jugadores de campo. [puesto, x %, y %, línea]
@@ -167,17 +167,11 @@
           titular: titulares.some((t) => norm(t) === norm(p.nombre)), comentario: com
         };
       });
-      const momentos = g(Q.momentos).split(/\n/).map((l) => l.trim()).filter(Boolean).map((l) => {
-        const parts = l.split(/\s+[-–]\s+/);
-        if (parts.length >= 3) return { min: parts[0].replace(/'$/, '') + "'", tipo: parts[1], texto: parts.slice(2).join(' - ') };
-        if (parts.length === 2) return { min: parts[0].replace(/'$/, '') + "'", tipo: '', texto: parts[1] };
-        return { min: '', tipo: '', texto: l };
-      });
       byJ[j] = {
         jornada: j, fecha: g(Q.fecha), rival: g(Q.rival) || '[Rival]', local: true, campo: g(Q.campo),
-        gf, gc, res: gf > gc ? 'V' : gf === gc ? 'E' : 'D', resumen: g(Q.resumen), momentos,
-        sistema: g(Q.sistema), titulares, jugadores, mvp: g(Q.mvp), peor: g(Q.peor),
-        proximo: { fecha: g(Q.pFecha), hora: g(Q.pHora), rival: g(Q.pRival), campo: g(Q.pCampo), sistema: g(Q.pSistema), estrategia: g(Q.estrategia), claves: g(Q.claves), bajas: g(Q.bajas) }
+        gf, gc, res: gf > gc ? 'V' : gf === gc ? 'E' : 'D', resumen: g(Q.resumen),
+        sistema: g(Q.sistema), titulares, jugadores, mvp: g(Q.mvp),
+        proximo: { fecha: g(Q.pFecha), hora: g(Q.pHora), rival: g(Q.pRival), campo: g(Q.pCampo), sistema: g(Q.pSistema), estrategia: g(Q.estrategia), bajas: g(Q.bajas) }
       }; // si se reenvía la misma jornada, gana el último envío
     });
     return Object.values(byJ).sort((a, b) => a.jornada - b.jornada);
@@ -222,7 +216,7 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
     const jugadas = new Set(S.cronicas.map((c) => c.jornada));
     const cal = S.calendario.filter((c) => !jugadas.has(c.jornada)).sort((a, b) => a.jornada - b.jornada)[0];
     const p = (u && u.proximo) || {};
-    const estrategia = { sistema: p.sistema || '', estrategia: p.estrategia || '', claves: p.claves || '', bajas: p.bajas || '' };
+    const estrategia = { sistema: p.sistema || '', estrategia: p.estrategia || '', bajas: p.bajas || '' };
     // Fecha, hora, rival y campo: primero el calendario; si no hay, lo que puso el míster en la crónica
     if (cal) return Object.assign({ jornada: cal.jornada, fecha: parseFecha(cal.fecha) ? fechaLarga(cal.fecha) : 'Fecha por fijar', hora: hora(cal.hora) || '[hh:mm]', rival: cal.rival, local: true, campo: cal.campo || '[Campo]', estado: cal.estado || '', notas: cal.notas || '' }, estrategia);
     if (p.rival) return Object.assign({ jornada: u.jornada + 1, fecha: fechaLarga(p.fecha), hora: hora(p.hora) || '[hh:mm]', rival: p.rival, local: true, campo: p.campo || '[Campo]', estado: '', notas: '' }, estrategia);
@@ -354,14 +348,12 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
       const estado = cr ? 'jugado' : aviso ? 'aviso' : n && n.jornada === j ? 'proximo' : 'pendiente';
       return { j, local, rival, cr, cal, estado, aviso, fecha: cr ? fechaCorta(cr.fecha) : (parseFecha(cal.fecha) ? fechaCorta(cal.fecha) : 'Por fijar') };
     }).filter((f) => S.filtro === 'todos' || (S.filtro === 'jugados' ? f.estado === 'jugado' : f.estado !== 'jugado'));
-    const claves = n && n.claves ? n.claves.split(/\n/).filter((x) => x.trim()) : [];
     $('#view-calendario').innerHTML =
       (n ? '<div class="dark next"><div class="next__main"><div style="display:flex;flex-direction:column;gap:8px"><span class="pill pill--accent" style="align-self:flex-start;letter-spacing:.1em;text-transform:uppercase">Próximo partido · Jornada ' + n.jornada + '</span><span class="next__title">' + partidoTitulo(n.local, n.rival) + '</span>' + (n.estado && !/confirmado/i.test(n.estado) || /por confirmar/i.test(n.estado || '') ? '<span class="pill pill--aviso" style="align-self:flex-start">' + esc(n.estado) + '</span>' : '') + (n.notas ? '<span style="color:#C9CDD4;font-size:14px">' + esc(n.notas) + '</span>' : '') + '</div>' +
         '<div class="facts"><div class="fact">' + ICON.cal + '<span><small>Fecha</small><b>' + esc(n.fecha) + '</b></span></div><div class="fact">' + ICON.clock + '<span><small>Hora</small><b>' + esc(n.hora || '[hh:mm]') + '</b></span></div><div class="fact">' + ICON.pin + '<span><small>Lugar</small><b>' + esc(n.campo || '[Campo]') + '</b></span></div><div class="fact">' + ICON.shield + '<span><small>Rival</small><b>' + esc(n.rival) + '</b></span></div></div></div>' +
         '<div class="strategy"><h2 class="h2" style="font-size:30px;text-transform:uppercase;color:#D9700F">La estrategia del míster</h2>' +
         (n.sistema ? '<div class="chips"><span class="pill pill--ink">Sistema ' + esc(n.sistema) + '</span></div>' : '') +
         '<p class="body2" style="font-size:14px;white-space:pre-line">' + esc(n.estrategia || 'El míster publicará aquí su planteamiento con la crónica de la jornada.') + '</p>' +
-        
         (n.bajas ? '<p class="muted" style="font-size:13px;white-space:pre-line"><b>Avisos:</b> ' + esc(n.bajas) + '</p>' : '') + '</div></div>' : '') +
       '<div class="page-head"><div><span class="eyebrow eyebrow--accent">Temporada ' + esc(CFG.temporada) + '</span><h1 class="h1">Calendario</h1></div><div class="chips" role="group" aria-label="Filtrar partidos">' +
       [['todos', 'Todos'], ['proximos', 'Próximos'], ['jugados', 'Jugados']].map((f) => '<button data-filtro="' + f[0] + '" aria-pressed="' + (S.filtro === f[0]) + '">' + f[1] + '</button>').join('') + '</div></div>' +
@@ -373,22 +365,20 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
     const tit = $('#view-calendario .next__title'); if (tit) { const fit = () => { tit.style.fontSize = ''; let fs = parseFloat(getComputedStyle(tit).fontSize); while (tit.scrollWidth > tit.clientWidth && fs > 16) { fs -= 1; tit.style.fontSize = fs + 'px'; } }; fit(); if (document.fonts) document.fonts.ready.then(fit); }
   }
 
-  // ── rasca y gana: MVP y "el más tostao" ───────────────────
+  // ── rasca y gana: MVP de la jornada ──────────────────────
   const TROFEO = '<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4"/><path d="M12 13v4M8.5 20h7M10 17h4"/></svg>';
-  const TOSTADA = '<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11a4 4 0 0 1 3-6.5h8A4 4 0 0 1 19 11v8.5H5z"/><path d="M9 13.5l1.5 1.5M14 12l1 1.5M11 17l1.2-.8"/><path d="M9 3c-.6-.8.6-1.2 0-2M13 3c-.6-.8.6-1.2 0-2" stroke-width="1.4"/></svg>';
   const leido = (k) => { try { return localStorage.getItem('rasca:' + k) === '1'; } catch (e) { return false; } };
   const marcar = (k) => { try { localStorage.setItem('rasca:' + k, '1'); } catch (e) { /* sin almacenamiento */ } };
 
   function premiosHTML(c) {
     if (!c) return '';
-    const tarjeta = (tipo, nombre) => {
+    const tarjeta = (nombre) => {
       const p = jugador(nombre); if (!p) return '';
       const d = c.jugadores[p.nombre] || {};
-      const mvp = tipo === 'mvp';
-      return '<div class="rasca rasca--' + tipo + '" data-key="j' + c.jornada + '-' + tipo + '">' +
+      return '<div class="rasca rasca--mvp" data-key="j' + c.jornada + '-mvp">' +
         '<div class="rasca__prize" aria-hidden="true">' +
-        '<span class="rasca__icon">' + (mvp ? TROFEO : TOSTADA) + '</span>' +
-        '<span class="rasca__label">' + (mvp ? 'MVP de la jornada ' : 'El más tostao · Jornada ') + c.jornada + '</span>' +
+        '<span class="rasca__icon">' + TROFEO + '</span>' +
+        '<span class="rasca__label">MVP de la jornada ' + c.jornada + '</span>' +
         '<span class="rasca__name">' + esc(nombreCorto(p)) + '</span>' +
         '<span class="rasca__meta">' + (dorsal(p) !== '–' ? 'Dorsal ' + dorsal(p) + ' · ' : '') + 'Nota ' + fmt1(d.nota) + '</span>' +
         (d.comentario ? '<span class="rasca__quote">«' + esc(d.comentario) + '»</span>' : '') +
@@ -398,7 +388,7 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
         '<button class="rasca__skip">Revelar sin rascar</button>' +
         '</div>';
     };
-    const cards = tarjeta('mvp', c.mvp);
+    const cards = tarjeta(c.mvp);
     if (!cards) return '';
     return '<div class="premios"><div class="page-head" style="align-items:baseline"><div><span class="eyebrow eyebrow--accent">Rasca y gana</span><h2 class="h2" style="font-size:30px">MVP de la jornada ' + c.jornada + '</h2></div><span class="muted">Rasca con el dedo o el ratón</span></div><div class="premios__grid">' + cards + '</div></div>';
   }
@@ -422,14 +412,12 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
   function initRascas(root) {
     root.querySelectorAll('.rasca').forEach((el) => {
       const key = el.dataset.key, canvas = el.querySelector('canvas'), prize = el.querySelector('.rasca__prize');
-      const mvp = el.classList.contains('rasca--mvp');
       const revelar = (celebrar) => {
         if (el.classList.contains('is-revealed')) return;
         el.classList.add('is-revealed'); prize.removeAttribute('aria-hidden');
         el.querySelector('.rasca__more').removeAttribute('tabindex');
         marcar(key);
-        if (celebrar && mvp) confeti(el);
-        if (celebrar && !mvp) el.classList.add('humo');
+        if (celebrar) confeti(el);
       };
       el.querySelector('.rasca__skip').addEventListener('click', () => revelar(true));
       if (leido(key)) { revelar(false); return; }
@@ -442,13 +430,12 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
       canvas.width = W * dpr; canvas.height = H * dpr;
       ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.scale(dpr, dpr);
       const g = ctx.createLinearGradient(0, 0, W, H);
-      if (mvp) { g.addColorStop(0, '#F7D58B'); g.addColorStop(0.5, '#E9A53C'); g.addColorStop(1, '#C97A16'); }
-      else { g.addColorStop(0, '#7A7F87'); g.addColorStop(0.5, '#4A4F57'); g.addColorStop(1, '#2A2D33'); }
+      g.addColorStop(0, '#F7D58B'); g.addColorStop(0.5, '#E9A53C'); g.addColorStop(1, '#C97A16');
       ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
       ctx.globalAlpha = 0.12; ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 10;
       for (let x = -H; x < W; x += 28) { ctx.beginPath(); ctx.moveTo(x, H); ctx.lineTo(x + H, 0); ctx.stroke(); }
-      ctx.globalAlpha = 1; ctx.textAlign = 'center'; ctx.fillStyle = mvp ? '#15171A' : '#FFFFFF';
-      const titulo = mvp ? '¿QUIÉN ES EL MVP?' : '¿QUIÉN SE HA TOSTADO?';
+      ctx.globalAlpha = 1; ctx.textAlign = 'center'; ctx.fillStyle = '#15171A';
+      const titulo = '¿QUIÉN ES EL MVP?';
       let fs = 34; ctx.font = '800 ' + fs + 'px "Barlow Condensed", sans-serif';
       while (ctx.measureText(titulo).width > W - 40 && fs > 16) { fs -= 2; ctx.font = '800 ' + fs + 'px "Barlow Condensed", sans-serif'; }
       ctx.fillText(titulo, W / 2, H / 2 - 4);
