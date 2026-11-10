@@ -1,25 +1,30 @@
 [
-  {"nombre": "Pablo Corredoira", "corto": "P. Corredoira", "dorsal": 1,
-    "posicion": "Portero", "capitan": false,"foto": "",
-    "descripcion": "Este portero se dedica a defender ya sea con la ley o con su cuerpo."
-  },
+  {"nombre": "Pablo Corredoira", "corto": "P. Corredoira", "dorsal": 1, "posicion": "Portero", "capitan": false,"foto": "",
+    "descripcion": "Este portero se dedica a defender ya sea con la ley o con su cuerpo."},
+
   {"nombre": "Beltrán Lafuente","corto": "B. Lafuente","dorsal": 10,
     "posicion": "Mediocentro", "capitan": true, "foto": "",
-    "descripcion": "Míster, capitán y centrocampista zurdo: se convoca a sí mismo cada semana y nadie se atreve a discutírselo. Lleva el 10 por Messi, del que es fan absoluto. Jugó un año en Primera División en España, en Segunda con el Pisa y en Islandia con el UMF Skallagrímur: el único del equipo con pasaporte futbolístico."
-  },
+    "descripcion": "Míster, capitán y centrocampista zurdo: se convoca a sí mismo cada semana y nadie se atreve a discutírselo. Lleva el 10 por Messi, del que es fan absoluto. Jugó un año en Primera División en España, en Segunda con el Pisa y en Islandia con el UMF Skallagrímur: el único del equipo con pasaporte futbolístico."},
+  
   { "nombre": "Gonzalo Mestanza", "corto": "G. Mestanza", "dorsal": 77, "posicion": "Mediocentro", "capitan": false, "foto": "", "descripcion": "" },
-  { "nombre": "Ricardo Soto", "corto": "R. Soto", "dorsal": 88, "posicion": "Mediocentro banda", "capitan": false, "foto": "", "descripcion": ""descripcion": "Tú no eliges el campo: el campo te elige a ti. Y a Ricardo lo han elegido todos: el de golf, el de ovejas y el de fútbol. Ya sea con ovejas o con líneas blancas, este mediocentro se dedica a conquistar y domar tierras." },
-  { "nombre": "Diego Muro", "corto": "D. Muro", "dorsal": 204, "posicion": "Defensa banda", "capitan": false, "foto": "", "descripcion": "Muro de apellido y de oficio. Con más fondo que el Pacífico. El equipo agradece su dedicación al gym; el 204 no es un dorsal, es su marca en press banca." },
-  { "nombre": "Juan de Solas", "corto": "J. Solas", "dorsal": 19, "posicion": "Mediocentro banda", "capitan": false, "foto": "", "descripcion": "Notario recién titulado: da fe de cada gol y, si hace falta, lo levanta en acta. Sus centros llegan con firma y sello." },
-  { "nombre": "Jaime Díez", "corto": "J. Díez", "dorsal": 11, "posicion": "Mediocentro banda", "capitan": false, "foto": "", "descripcion": "Tan rápido que los rivales no le marcan, le persiguen." },
+  { "nombre": "Ricardo Soto", "corto": "R. Soto", "dorsal": 88, "posicion": "Mediocentro banda", "capitan": false, "foto": "", 
+    "descripcion": "descripcion": "Tú no eliges el campo: el campo te elige a ti. Y a Ricardo lo han elegido todos: el de golf, el de ovejas y el de fútbol. Ya sea con ovejas o con líneas blancas, este mediocentro se dedica a conquistar y domar tierras." },
+  { "nombre": "Diego Muro", "corto": "D. Muro", "dorsal": 204, "posicion": "Defensa banda", "capitan": false, "foto": "", 
+    "descripcion": "Muro de apellido y de oficio. Con más fondo que el Pacífico. El equipo agradece su dedicación al gym; el 204 no es un dorsal, es su marca en press banca." },
+  { "nombre": "Juan de Solas", "corto": "J. Solas", "dorsal": 19, "posicion": "Mediocentro banda", "capitan": false, "foto": "", 
+    "descripcion": "Notario recién titulado: da fe de cada gol y, si hace falta, lo levanta en acta. Sus centros llegan con firma y sello." },
+  { "nombre": "Jaime Díez", "corto": "J. Díez", "dorsal": 11, "posicion": "Mediocentro banda", "capitan": false, "foto": "", 
+    "descripcion": "Tan rápido que los rivales no le marcan, le persiguen." },
   { "nombre": "Nicolás Cifuentes", "corto": "N. Cifu", "dorsal": 14, "posicion": "Mediocentro banda", "capitan": false, "foto": "", "descripcion": "" },
   { "nombre": "Miguel Suárez", "corto": "M. Suárez", "dorsal": 21 , "posicion": "Defensa banda", "capitan": false, "foto": "", "descripcion": "" },
-  { "nombre": "Gonzalo Ballesteros", "corto": "G. Balles", "dorsal": 16 , "posicion": "Delantero", "capitan": false, "foto": "", "descripcion": "Deportista multifacético: si es redonda y se puede golpear, cuenta con el." },
-  { "nombre": "Antonio Lafuente", "corto": "A. Lafu", "dorsal": 8, "posicion": "Mediocentro banda", "capitan": false, "foto": "", "descripcion": "Sería nepotismo si no fuera el mejor del equipo. Primo del míster y trabaja en el Metropolitan. Sólo habría más futbol en el si desayunase los cereales de un balón." },
+  { "nombre": "Gonzalo Ballesteros", "corto": "G. Balles", "dorsal": 16 , "posicion": "Delantero", "capitan": false, "foto": "", 
+    "descripcion": "Deportista multifacético: si es redonda y se puede golpear, cuenta con el." },
+  { "nombre": "Antonio Lafuente", "corto": "A. Lafu", "dorsal": 8, "posicion": "Mediocentro banda", "capitan": false, "foto": "", 
+    "descripcion": "Sería nepotismo si no fuera el mejor del equipo. Primo del míster y trabaja en el Metropolitan. Sólo habría más futbol en el si desayunase los cereales de un balón." },
   { "nombre": "Javier Laín", "corto": "J. Laín", "dorsal": 6, "posicion": "Defensa", "capitan": false, "foto": "", "descripcion": "" },
   { "nombre": "Manuel Nuñez", "corto": "Minos", "dorsal": 9, "posicion": "Delantero", "capitan": false, "foto": "", "descripcion": "" },
   { "nombre": "Jacobo Pérez-Pla", "corto": "J. Pérez-Pla", "dorsal": 7, "posicion": "Defensa banda", "capitan": false, "foto": "", "descripcion": "" },
-  { "nombre": "Jaime Salafranca", "corto": "J. Salafranca", "dorsal": 5, "posicion": "Defensa", "capitan": false, "foto": "", "descripcion": ""descripcion": "Con el 5 a la espalda y tamaño de armario de dos puertas. No necesita correr: el área es suya por ocupación. Por su zona el rival no pasa, pide permiso. Y en los córners, Pablo no ve el balón, solo su espalda."" },
+  { "nombre": "Jaime Salafranca", "corto": "J. Salafranca", "dorsal": 5, "posicion": "Defensa", "capitan": false, "foto": "", "descripcion": "descripcion": "Con el 5 a la espalda y tamaño de armario de dos puertas. No necesita correr: el área es suya por ocupación. Por su zona el rival no pasa, pide permiso. Y en los córners, Pablo no ve el balón, solo su espalda." },
   { "nombre": "Javier Rodríguez-Moneu", "corto": "J. Rodríguez-Moneu", "dorsal": 4 , "posicion": "Defensa", "capitan": false, "foto": "", "descripcion": "" },
   { "nombre": "Yago Tomé", "corto": "Y. Tomé", "dorsal": 30 , "posicion": "Mediocentro", "capitan": false, "foto": "", "descripcion": "" }
 ]
