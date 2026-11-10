@@ -257,6 +257,17 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
       '</div>' +
       premiosHTML(c) +
       '<div style="display:flex;flex-direction:column;gap:16px"><div class="page-head" style="align-items:baseline"><h2 class="h2" style="font-size:30px">Jugador a jugador</h2><span class="muted">Nota de 0 a 10 · pulsa para ver su historial</span></div><div class="ratings">' + (ratings || '<p class="muted">Sin notas.</p>') + '</div></div>';
+    // Marcador en una fila: si un nombre no cabe, baja a dos líneas por palabras ("TOSTAOS / F.C.").
+    // Solo si una palabra sola no cabe, o haría falta una 3ª línea, se reduce la letra de los dos equipos.
+    const encajarMarcador = () => {
+      const eqs = Array.from(document.querySelectorAll('#view-partidos .scoreboard__team'));
+      eqs.forEach((el) => { el.style.fontSize = ''; });
+      if (!eqs.length) return;
+      let fs = parseFloat(getComputedStyle(eqs[0]).fontSize);
+      const noCabe = () => eqs.some((el) => el.scrollWidth > el.clientWidth || el.scrollHeight > parseFloat(getComputedStyle(el).lineHeight) * 2 + 2);
+      while (noCabe() && fs > 11) { fs -= 1; eqs.forEach((el) => { el.style.fontSize = fs + 'px'; }); }
+    };
+    encajarMarcador(); if (document.fonts) document.fonts.ready.then(encajarMarcador);
     initRascas($('#view-partidos'));
   }
 
