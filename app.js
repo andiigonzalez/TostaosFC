@@ -157,9 +157,9 @@
         const notaRaw = g('Nota: ' + p.nombre) || g(Q.nota, p.nombre);       // nota escrita a mano (o la tabla antigua)
         const notaNum = parseFloat(String(notaRaw).replace(',', '.'));
         const esTitular = titulares.some((t) => norm(t) === norm(p.nombre));
-        const jugo = (notaRaw !== '' && norm(notaRaw) !== 'no jugo') || esTitular;
+        const jugo = !isNaN(notaNum) || esTitular;               // jugó si tiene nota numérica o fue titular
         const tarj = g(Q.tarjetas, p.nombre);
-        const com = g('Comentario: ' + p.nombre) || comentarios[p.nombre] || '';
+        const com = g('Análisis: ' + p.nombre) || g('Comentario: ' + p.nombre) || comentarios[p.nombre] || '';   // caja nueva "Análisis:" o la antigua "Comentario:"
         jugadores[p.nombre] = {
           jugo, nota: jugo && !isNaN(notaNum) ? notaNum : null,
           goles: toInt(g(Q.goles, p.nombre)), asist: toInt(g(Q.asist, p.nombre)),
@@ -335,7 +335,7 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
       '<div class="jselect"><button class="icon-btn icon-btn--light" data-j="-1" aria-label="Jornada anterior"' + (idx === 0 ? ' disabled' : '') + '>' + ICON.left + '</button><label class="sr" style="position:absolute;left:-9999px" for="jsel">Elegir jornada</label><select id="jsel">' + opts + '</select><button class="icon-btn icon-btn--light" data-j="1" aria-label="Jornada siguiente"' + (idx === S.cronicas.length - 1 ? ' disabled' : '') + '>' + ICON.right + '</button></div></div>' +
       '<div class="dark scoreboard"><small>' + fechaLarga(c.fecha) + (c.campo ? ' · ' + esc(c.campo) : '') + '</small><div class="scoreboard__row"><span class="scoreboard__team">' + (c.local ? 'TOSTAOS F.C.' : esc(c.rival).toUpperCase()) + '</span><span class="scoreboard__score">' + (c.local ? c.gf + ' – ' + c.gc : c.gc + ' – ' + c.gf) + '</span><span class="scoreboard__team">' + (c.local ? esc(c.rival).toUpperCase() : 'TOSTAOS F.C.') + '</span></div>' + (goleadores.length ? '<small>Goles de Tostaos: ' + goleadores.join(', ') + '</small>' : '') + '</div>' +
       '<div class="row-wrap"><div class="card summary"><h2 class="h2" style="font-size:26px">Resumen del partido</h2>' + (parrafos || '<p class="muted">Sin resumen.</p>') + '</div>' +
-      '<div class="card moments"><h2 class="h2" style="font-size:26px;margin-bottom:6px">Momentos clave</h2>' + (c.momentos.length ? c.momentos.map((m) => '<div class="moment"><span class="moment__min">' + esc(m.min) + '</span>' + (m.tipo ? '<span class="tag ' + norm(m.tipo).replace(/[^a-z]/g, '') + '">' + esc(m.tipo) + '</span>' : '') + '<span class="body2" style="font-size:14px">' + esc(m.texto) + '</span></div>').join('') : '<p class="muted">Sin momentos clave.</p>') + '</div></div>' +
+      '</div>' +
       premiosHTML(c) +
       '<div style="display:flex;flex-direction:column;gap:16px"><div class="page-head" style="align-items:baseline"><h2 class="h2" style="font-size:30px">Análisis jugador a jugador</h2><span class="muted">Nota de 1 a 10 · pulsa para ver su historial</span></div><div class="ratings">' + (ratings || '<p class="muted">Sin notas.</p>') + '</div></div>';
     initRascas($('#view-partidos'));
@@ -361,7 +361,7 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
         '<div class="strategy"><h2 class="h2" style="font-size:30px;text-transform:uppercase;color:#D9700F">La estrategia del míster</h2>' +
         (n.sistema ? '<div class="chips"><span class="pill pill--ink">Sistema ' + esc(n.sistema) + '</span></div>' : '') +
         '<p class="body2" style="font-size:14px;white-space:pre-line">' + esc(n.estrategia || 'El míster publicará aquí su planteamiento con la crónica de la jornada.') + '</p>' +
-        (claves.length ? '<ul>' + claves.map((k) => '<li>' + esc(k) + '</li>').join('') + '</ul>' : '') +
+        
         (n.bajas ? '<p class="muted" style="font-size:13px;white-space:pre-line"><b>Avisos:</b> ' + esc(n.bajas) + '</p>' : '') + '</div></div>' : '') +
       '<div class="page-head"><div><span class="eyebrow eyebrow--accent">Temporada ' + esc(CFG.temporada) + '</span><h1 class="h1">Calendario</h1></div><div class="chips" role="group" aria-label="Filtrar partidos">' +
       [['todos', 'Todos'], ['proximos', 'Próximos'], ['jugados', 'Jugados']].map((f) => '<button data-filtro="' + f[0] + '" aria-pressed="' + (S.filtro === f[0]) + '">' + f[1] + '</button>').join('') + '</div></div>' +
@@ -398,9 +398,9 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
         '<button class="rasca__skip">Revelar sin rascar</button>' +
         '</div>';
     };
-    const cards = tarjeta('mvp', c.mvp) + tarjeta('peor', c.peor);
+    const cards = tarjeta('mvp', c.mvp);
     if (!cards) return '';
-    return '<div class="premios"><div class="page-head" style="align-items:baseline"><div><span class="eyebrow eyebrow--accent">Rasca y gana</span><h2 class="h2" style="font-size:30px">Premios de la jornada ' + c.jornada + '</h2></div><span class="muted">Rasca con el dedo o el ratón</span></div><div class="premios__grid">' + cards + '</div></div>';
+    return '<div class="premios"><div class="page-head" style="align-items:baseline"><div><span class="eyebrow eyebrow--accent">Rasca y gana</span><h2 class="h2" style="font-size:30px">MVP de la jornada ' + c.jornada + '</h2></div><span class="muted">Rasca con el dedo o el ratón</span></div><div class="premios__grid">' + cards + '</div></div>';
   }
 
   function confeti(el) {
