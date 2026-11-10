@@ -5,8 +5,8 @@ window.TOSTAOS_CONFIG = {
   // Enlace CSV de la hoja de respuestas del formulario.
   // En la hoja: Archivo › Compartir › Publicar en la web ›
   // elige la pestaña de respuestas y "Valores separados por comas (.csv)".
-  urlRespuestasCSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnRun3Ad-yAVA5EfK5Cheqkz1z5vZNa_x_RK4X7qLiYpsYX3iQdK3AKTcLDyQZhbOHx_-ZHdmc1V6j/pub?output=csv",
-  urlCalendarioCSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_jbFooWcyC8ylGccDozwOAM7xXHvakpcRWtKzUm2QW17NiGw5ONnb5GYDvtNykg3uWJhCMx5bKvd6/pub?output=csv",
+  urlRespuestasCSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnRun3Ad-yAVA5EfK5Cheqkz1z5vZNa_x_RK4X7qLiYpsYX3iQdK3AKTcLDyQZhbOHx_-ZHdmc1V6j/pub?gid=1251237455&single=true&output=csv",
+  urlCalendarioCSV: "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_jbFooWcyC8ylGccDozwOAM7xXHvakpcRWtKzUm2QW17NiGw5ONnb5GYDvtNykg3uWJhCMx5bKvd6/pub?gid=2060369509&single=true&output=csv",
   // true = enseña los datos de prueba de data/ejemplo.csv (para ver cómo queda).
   // Ponlo en false cuando hayas pegado el enlace de arriba.
   usarEjemplo: false,
