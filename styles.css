@@ -320,9 +320,9 @@ td.num { font-family: var(--display); font-weight: 800; font-size: 20px; }
   /* Partidos */
   .jselect { width: 100%; }
   .jselect select { flex: 1; min-width: 0; }
-  .scoreboard__row { gap: 6px 14px; }
-  .scoreboard__team { font-size: 20px; min-width: 0; flex: 1 1 100px; }
-  .scoreboard__score { font-size: 56px; }
+  .scoreboard__row { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; width: 100%; }
+  .scoreboard__team { font-size: 22px; line-height: 1.05; min-width: 0; overflow: hidden; }
+  .scoreboard__score { font-size: 52px; white-space: nowrap; }
   .ratings { gap: 12px; }
   .rcard { padding: 16px; }
 
