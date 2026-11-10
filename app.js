@@ -9,24 +9,13 @@
   const Q = {
     jornada: 'Jornada', fecha: 'Fecha del partido', rival: 'Rival', campo: 'Campo',
     gf: 'Goles de Tostaos', gc: 'Goles del rival', resumen: 'Resumen del partido',
-    sistema: 'Sistema', titulares: 'Once titular',
     nota: 'Nota de cada jugador', goles: 'Goles de cada jugador', asist: 'Asistencias de cada jugador', tarjetas: 'Tarjetas',
-    mvp: 'MVP del partido', comentarios: 'Comentario sobre cada jugador',
+    mvp: 'MVP del partido',
     pFecha: 'Próximo partido: fecha', pHora: 'Próximo partido: hora', pRival: 'Próximo partido: rival',
-    pCampo: 'Próximo partido: campo', pSistema: 'Próximo partido: sistema previsto',
+    pCampo: 'Próximo partido: campo',
     estrategia: 'Estrategia del míster', bajas: 'Bajas y avisos'
   };
 
-  // Fútbol 7: portero + 6 jugadores de campo. [puesto, x %, y %, línea]
-  const FORMACIONES = {
-    '2-3-1':   [['POR', 50, 88, 'POR'], ['DFC', 68, 70, 'DEF'], ['DFC', 32, 70, 'DEF'], ['MD', 84, 45, 'MED'], ['MC', 50, 49, 'MED'], ['MI', 16, 45, 'MED'], ['DC', 50, 17, 'DEL']],
-    '3-2-1':   [['POR', 50, 88, 'POR'], ['LD', 82, 67, 'DEF'], ['DFC', 50, 71, 'DEF'], ['LI', 18, 67, 'DEF'], ['MC', 66, 45, 'MED'], ['MC', 34, 45, 'MED'], ['DC', 50, 17, 'DEL']],
-    '3-1-2':   [['POR', 50, 88, 'POR'], ['LD', 82, 67, 'DEF'], ['DFC', 50, 71, 'DEF'], ['LI', 18, 67, 'DEF'], ['MC', 50, 47, 'MED'], ['DC', 66, 19, 'DEL'], ['DC', 34, 19, 'DEL']],
-    '2-1-2-1': [['POR', 50, 88, 'POR'], ['DFC', 66, 71, 'DEF'], ['DFC', 34, 71, 'DEF'], ['MCD', 50, 56, 'MED'], ['MD', 80, 37, 'MED'], ['MI', 20, 37, 'MED'], ['DC', 50, 15, 'DEL']],
-    '2-2-2':   [['POR', 50, 88, 'POR'], ['DFC', 66, 71, 'DEF'], ['DFC', 34, 71, 'DEF'], ['MD', 76, 45, 'MED'], ['MI', 24, 45, 'MED'], ['DC', 64, 18, 'DEL'], ['DC', 36, 18, 'DEL']],
-    '3-3':     [['POR', 50, 88, 'POR'], ['LD', 82, 66, 'DEF'], ['DFC', 50, 70, 'DEF'], ['LI', 18, 66, 'DEF'], ['ED', 82, 26, 'DEL'], ['DC', 50, 18, 'DEL'], ['EI', 18, 26, 'DEL']]
-  };
-  const SISTEMA_DEFECTO = '2-3-1';
   const ROLE_ORDER = ['POR', 'DEF', 'DEF-BAN', 'MED', 'MED-BAN', 'DEL', ''];
 
    const ROLE_NAME = {
@@ -47,19 +36,8 @@
      'mediocentro banda': 'MED-BAN', 'med-ban': 'MED-BAN',
      'delantero': 'DEL', 'del': 'DEL'
    };
-   // Puestos del campo que van pegados a la banda
-   const SLOT_BANDA = ['LD', 'LI', 'CAD', 'CAI', 'MD', 'MI', 'ED', 'EI'];
 
-   const ROLE_GROUP = {
-     POR: 'POR',
-     DEF: 'DEF',
-     'DEF-BAN': 'DEF',
-     MED: 'MED',
-     'MED-BAN': 'MED',
-     DEL: 'DEL'
-   };
-
-  const S = { tab: 'inicio', view: 'alineacion', filtro: 'todos', jornadaSel: null, plantilla: [], calendario: [], cronicas: [] };
+  const S = { tab: 'inicio', view: 'jugadores', filtro: 'todos', jornadaSel: null, plantilla: [], calendario: [], cronicas: [] };
 
   // ── utilidades ─────────────────────────────────────────────
   const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -131,47 +109,31 @@
   // ── datos ──────────────────────────────────────────────────
   function buildCronicas(rows) {
     const byJ = {};
-    // Reconoce a un jugador escriba lo que escriba: "Jacobo", "pla", "Perez-Pla", "beltran"…
-    const limpio = (t) => norm(t).replace(/[-.]/g, ' ').replace(/\s+/g, ' ').trim();
-    const quien = (txt) => {
-      const k = limpio(txt); if (!k) return null;
-      let c = S.plantilla.filter((p) => [p.nombre, p.corto, p.dorsal].filter(Boolean).some((n) => limpio(n) === k));
-      if (c.length === 1) return c[0];
-      const palabras = k.split(' ');
-      c = S.plantilla.filter((p) => { const w = limpio([p.nombre, p.corto, p.dorsal].filter(Boolean).join(' ')).split(' '); return palabras.every((x) => w.includes(x)); });
-      return c.length === 1 ? c[0] : null;
-    };
     rows.forEach((row) => {
       const g = makeGetter(row);
       const j = toInt(g(Q.jornada));
       if (!j) return;
       const gf = toInt(g(Q.gf)), gc = toInt(g(Q.gc));
-      const titulares = g(Q.titulares).split(/,\s*/).filter(Boolean);
-      const comentarios = {};
-      g(Q.comentarios).split(/\n/).forEach((line) => {
-        const i = line.indexOf(':'); if (i < 1) return;
-        const pj = quien(line.slice(0, i)); if (pj) comentarios[pj.nombre] = line.slice(i + 1).trim();
-      });
+      const mvp = g(Q.mvp);
       const jugadores = {};
       S.plantilla.forEach((p) => {
         const notaRaw = g('Nota: ' + p.nombre) || g(Q.nota, p.nombre);       // nota escrita a mano (o la tabla antigua)
         const notaNum = parseFloat(String(notaRaw).replace(',', '.'));
-        const esTitular = titulares.some((t) => norm(t) === norm(p.nombre));
-        const jugo = !isNaN(notaNum) || esTitular;               // jugó si tiene nota numérica o fue titular
         const tarj = g(Q.tarjetas, p.nombre);
-        const com = g('Análisis: ' + p.nombre) || g('Comentario: ' + p.nombre) || comentarios[p.nombre] || '';   // caja nueva "Análisis:" o la antigua "Comentario:"
+        const goles = toInt(g(Q.goles, p.nombre)), asist = toInt(g(Q.asist, p.nombre));
+        // jugó si tiene nota, o marcó, dio una asistencia, vio tarjeta o fue MVP
+        const jugo = !isNaN(notaNum) || goles > 0 || asist > 0 || /amarilla|roja/i.test(tarj) || norm(mvp) === norm(p.nombre);
+        const com = g('Análisis: ' + p.nombre) || g('Comentario: ' + p.nombre) || '';   // solo crónicas antiguas: ya no se pide
         jugadores[p.nombre] = {
-          jugo, nota: jugo && !isNaN(notaNum) ? notaNum : null,
-          goles: toInt(g(Q.goles, p.nombre)), asist: toInt(g(Q.asist, p.nombre)),
-          amarilla: /amarilla/i.test(tarj), roja: /roja/i.test(tarj),
-          titular: titulares.some((t) => norm(t) === norm(p.nombre)), comentario: com
+          jugo, nota: !isNaN(notaNum) ? notaNum : null, goles, asist,
+          amarilla: /amarilla/i.test(tarj), roja: /roja/i.test(tarj), comentario: com
         };
       });
       byJ[j] = {
         jornada: j, fecha: g(Q.fecha), rival: g(Q.rival) || '[Rival]', local: true, campo: g(Q.campo),
         gf, gc, res: gf > gc ? 'V' : gf === gc ? 'E' : 'D', resumen: g(Q.resumen),
-        sistema: g(Q.sistema), titulares, jugadores, mvp: g(Q.mvp),
-        proximo: { fecha: g(Q.pFecha), hora: g(Q.pHora), rival: g(Q.pRival), campo: g(Q.pCampo), sistema: g(Q.pSistema), estrategia: g(Q.estrategia), bajas: g(Q.bajas) }
+        jugadores, mvp,
+        proximo: { fecha: g(Q.pFecha), hora: g(Q.pHora), rival: g(Q.pRival), campo: g(Q.pCampo), estrategia: g(Q.estrategia), bajas: g(Q.bajas) }
       }; // si se reenvía la misma jornada, gana el último envío
     });
     return Object.values(byJ).sort((a, b) => a.jornada - b.jornada);
@@ -182,7 +144,6 @@
     const notas = hist.map((c) => c.jugadores[nombre].nota).filter((n) => n != null && !isNaN(n));
     return {
       pj: hist.length,
-      titular: hist.filter((c) => c.jugadores[nombre].titular).length,
       goles: hist.reduce((s, c) => s + c.jugadores[nombre].goles, 0),
       asist: hist.reduce((s, c) => s + c.jugadores[nombre].asist, 0),
       amarillas: hist.filter((c) => c.jugadores[nombre].amarilla).length,
@@ -197,7 +158,6 @@
   const nombreCorto = (p) => (p ? (p.corto || p.nombre) + (p.capitan ? ' (C)' : '') : '');
   const roleCode = (p) => {if (!p || !p.posicion) return ''; return ROLE_CODE[norm(p.posicion)] || '';};
 
-const roleGroup = (p) => {const code = roleCode(p); return ROLE_GROUP[code] || '';};
 const roleCls = (p) => roleCode(p) || 'X';
 
 // Etiqueta corta visible: POR, DEF, DEF-BAN, MED, MED-BAN o DEL
@@ -216,7 +176,7 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
     const jugadas = new Set(S.cronicas.map((c) => c.jornada));
     const cal = S.calendario.filter((c) => !jugadas.has(c.jornada)).sort((a, b) => a.jornada - b.jornada)[0];
     const p = (u && u.proximo) || {};
-    const estrategia = { sistema: p.sistema || '', estrategia: p.estrategia || '', bajas: p.bajas || '' };
+    const estrategia = { estrategia: p.estrategia || '', bajas: p.bajas || '' };
     // Fecha, hora, rival y campo: primero el calendario; si no hay, lo que puso el míster en la crónica
     if (cal) return Object.assign({ jornada: cal.jornada, fecha: parseFecha(cal.fecha) ? fechaLarga(cal.fecha) : 'Fecha por fijar', hora: hora(cal.hora) || '[hh:mm]', rival: cal.rival, local: true, campo: cal.campo || '[Campo]', estado: cal.estado || '', notas: cal.notas || '' }, estrategia);
     if (p.rival) return Object.assign({ jornada: u.jornada + 1, fecha: fechaLarga(p.fecha), hora: hora(p.hora) || '[hh:mm]', rival: p.rival, local: true, campo: p.campo || '[Campo]', estado: '', notas: '' }, estrategia);
@@ -244,36 +204,7 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
     initRascas($('#view-inicio'));
   }
 
-  function alineacion() {
-    const u = ultima();
-    const sistema = u && FORMACIONES[u.sistema] ? u.sistema : SISTEMA_DEFECTO;
-    const slots = FORMACIONES[sistema].map((s) => ({ role: s[0], x: s[1], y: s[2], grupo: s[3], p: null }));
-    if (u) {
-      const tit = S.plantilla.filter((p) => u.jugadores[p.nombre] && u.jugadores[p.nombre].titular).slice(0, 7);
-      const libre = (f) => slots.find((sl) => !sl.p && f(sl));
-      const orden = (p) => ROLE_ORDER.indexOf(roleCode(p));
-      tit.slice().sort((a, b) => orden(a) - orden(b)).forEach((p) => {
-        const code = roleCode(p), grupo = roleGroup(p), banda = code.indexOf('-BAN') > 0;
-        const s = (banda && libre((sl) => sl.grupo === grupo && SLOT_BANDA.includes(sl.role)))   // su línea, en banda
-          || (!banda && libre((sl) => sl.grupo === grupo && !SLOT_BANDA.includes(sl.role)))    // su línea, por dentro
-          || (grupo && libre((sl) => sl.grupo === grupo))                                       // su línea, donde sea
-          || (banda && libre((sl) => SLOT_BANDA.includes(sl.role)))                             // otra banda libre
-          || libre((sl) => sl.grupo !== 'POR' || grupo === 'POR')                               // cualquier hueco
-          || libre(() => true);
-        if (s) s.p = p;
-      });
-    }
-    return { u, sistema, slots };
-  }
-
   function renderPlantilla() {
-    const { u, sistema, slots } = alineacion();
-    const enCampo = new Set(slots.filter((s) => s.p).map((s) => s.p.nombre));
-    const banquillo = S.plantilla.filter((p) => !enCampo.has(p.nombre));
-    const lines = '<div class="ln" style="inset:16px;border-radius:4px"></div><div class="ln" style="left:16px;right:16px;top:50%;border-width:2px 0 0"></div><div class="ln" style="left:50%;top:50%;width:110px;height:110px;margin:-55px 0 0 -55px;border-radius:999px"></div><div class="ln" style="left:25%;right:25%;top:16px;height:90px;border-top:0"></div><div class="ln" style="left:25%;right:25%;bottom:16px;height:90px;border-bottom:0"></div>';
-    const pitch = slots.map((s) => s.p
-      ? '<button class="pl" style="left:' + s.x + '%;top:' + s.y + '%" data-jugador="' + esc(s.p.nombre) + '" aria-label="' + esc(s.p.nombre) + ', ' + s.role + '"><span class="pl__dot">' + dorsal(s.p) + '</span><span class="pl__name">' + esc(nombreCorto(s.p)) + '</span><span class="pl__role">' + s.role + '</span></button>'
-      : '<span class="pl" style="left:' + s.x + '%;top:' + s.y + '%;cursor:default"><span class="pl__dot pl__dot--empty">?</span><span class="pl__role">' + s.role + '</span></span>').join('');
     const perfiles = S.plantilla.slice().sort((a, b) => (b.capitan ? 1 : 0) - (a.capitan ? 1 : 0)).map((p) => {
       const st = statsJugador(p.nombre);
       return '<button class="pcard" data-jugador="' + esc(p.nombre) + '"><span class="pcard__top">' + (p.foto ? '<img class="foto" src="' + esc(p.foto) + '" alt="">' : '') + '<span class="pcard__id"><span class="pcard__name">' + esc(p.corto || p.nombre) + (p.capitan ? '&nbsp;<span class="pcard__cap" title="Capitán">C</span>' : '') + '</span><span class="pcard__pos">' + esc(roleNombre(p)) + '</span></span><span class="pcard__num">' + dorsal(p) + '</span></span>' +
@@ -284,21 +215,15 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
     const filas = S.plantilla.slice().sort((a, b) => ROLE_ORDER.indexOf(roleCode(a)) - ROLE_ORDER.indexOf(roleCode(b))).map((p) => {
       const st = statsJugador(p.nombre);
       return '<tr><td class="num">' + dorsal(p) + '</td><td><button class="linkish nombre2" data-jugador="' + esc(p.nombre) + '"><b>' + esc(nombreCorto(p)) + '</b></button></td><td><span class="role ' + roleCls(p) + '">' + roleTxt(p) + '</span></td>' +
-        '<td class="c">' + st.pj + '</td><td class="c">' + st.titular + '</td><td class="c">' + st.goles + '</td><td class="c">' + st.asist + '</td><td class="c">' + st.amarillas + ' / ' + st.rojas + '</td><td class="c">' + st.mvps + '</td><td class="c"><b>' + fmt1(st.media) + '</b></td><td>' + formaHTML(st.forma) + '</td></tr>';
+        '<td class="c">' + st.pj + '</td><td class="c">' + st.goles + '</td><td class="c">' + st.asist + '</td><td class="c">' + st.amarillas + ' / ' + st.rojas + '</td><td class="c">' + st.mvps + '</td><td class="c"><b>' + fmt1(st.media) + '</b></td><td>' + formaHTML(st.forma) + '</td></tr>';
     }).join('');
-    const bajas = u && u.proximo && u.proximo.bajas;
 
     $('#view-plantilla').innerHTML =
-      '<div class="page-head"><div><span class="eyebrow eyebrow--accent">Equipo</span><h1 class="h1">Alineación y plantilla</h1></div>' +
-      '<div class="seg" role="group" aria-label="Vista"><button data-view="alineacion" aria-pressed="' + (S.view === 'alineacion') + '">Alineación</button><button data-view="tabla" aria-pressed="' + (S.view === 'tabla') + '">Plantilla</button><button data-view="jugadores" aria-pressed="' + (S.view === 'jugadores') + '">Jugadores</button></div></div>' +
-      (S.view === 'alineacion'
-        ? '<div class="row-wrap"><div class="pitch-col"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><b>' + (u ? 'Alineación titular · Jornada ' + u.jornada : 'Alineación titular') + '</b><span class="pill pill--ink" style="font-family:var(--display);font-size:20px">' + sistema + '</span></div><div class="pitch">' + lines + pitch + '</div>' + (u ? '' : '<p class="muted">La alineación aparecerá cuando el míster envíe la primera crónica.</p>') + '</div>' +
-          '<div class="side-col">' + (u ? '<div class="card"><h2 class="h2" style="font-size:24px">Banquillo</h2>' + (banquillo.length ? banquillo.map((p) => '<button class="bench-row" data-jugador="' + esc(p.nombre) + '"><span class="n">' + dorsal(p) + '</span><span class="name">' + esc(nombreCorto(p)) + '</span><span class="role ' + roleCls(p) + '">' + roleTxt(p) + '</span></button>').join('') : '<p class="muted">Toda la plantilla salió de titular.</p>') + '</div>' : '') +
-          '<div class="card"><h2 class="h2" style="font-size:24px">Notas del míster</h2><span class="muted" style="margin-top:-8px">Beltrán Lafuente · Míster y capitán</span><p class="body2" style="font-size:14px;white-space:pre-line">' + esc(bajas || 'Sin avisos por ahora.') + '</p></div></div></div>' +
-          '<div style="display:flex;flex-direction:column;gap:14px"><div class="carousel-head"><div><h2 class="h2" style="font-size:30px">Perfiles de jugadores</h2><span class="muted">' + S.plantilla.length + ' jugadores · pulsa una tarjeta para ver su historial</span></div><div class="arrows"><button class="icon-btn" data-car="-1" aria-label="Anteriores">' + ICON.left + '</button><button class="icon-btn" data-car="1" aria-label="Siguientes">' + ICON.right + '</button></div></div><div class="carousel" id="carousel">' + perfiles + '</div></div>'
-        : S.view === 'jugadores'
+      '<div class="page-head"><div><span class="eyebrow eyebrow--accent">Equipo</span><h1 class="h1">Plantilla</h1></div>' +
+      '<div class="seg" role="group" aria-label="Vista"><button data-view="jugadores" aria-pressed="' + (S.view === 'jugadores') + '">Jugadores</button><button data-view="tabla" aria-pressed="' + (S.view === 'tabla') + '">Estadísticas</button></div></div>' +
+      (S.view === 'jugadores'
         ? '<span class="muted">' + S.plantilla.length + ' jugadores · pulsa una tarjeta para ver su historial</span><div class="pgrid">' + perfiles + '</div>'
-        : '<span class="muted swipe-hint">Desliza hacia la derecha para ver todas las estadísticas →</span><div class="table-box"><table><thead><tr><th>#</th><th>Jugador</th><th>Pos.</th><th class="c">PJ</th><th class="c">Titular</th><th class="c">Goles</th><th class="c">Asist.</th><th class="c">Tarjetas</th><th class="c">MVP</th><th class="c">Nota media</th><th>Forma (últ. 5)</th></tr></thead><tbody>' + filas + '</tbody></table></div>' +
+        : '<span class="muted swipe-hint">Desliza hacia la derecha para ver todas las estadísticas →</span><div class="table-box"><table><thead><tr><th>#</th><th>Jugador</th><th>Pos.</th><th class="c">PJ</th><th class="c">Goles</th><th class="c">Asist.</th><th class="c">Tarjetas</th><th class="c">MVP</th><th class="c">Nota media</th><th>Forma (últ. 5)</th></tr></thead><tbody>' + filas + '</tbody></table></div>' +
           '<div class="legend"><span><i class="form"><i class="hi"></i></i>Nota 7 o más</span><span><i class="form"><i class="mid"></i></i>5 a 6,9</span><span><i class="form"><i class="lo"></i></i>Menos de 5</span><span><i class="form"><i></i></i>No jugó</span></div>');
     // Nombre corto siempre en una línea: si no cabe, se reduce la letra
     const encajar = () => document.querySelectorAll('#view-plantilla .pcard__name').forEach((el) => { el.style.fontSize = ''; let fs = parseFloat(getComputedStyle(el).fontSize); while (el.scrollWidth > el.clientWidth && fs > 16) { fs -= 1; el.style.fontSize = fs + 'px'; } });
@@ -315,13 +240,13 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
     const goleadores = S.plantilla.filter((p) => c.jugadores[p.nombre] && c.jugadores[p.nombre].goles).map((p) => esc(nombreCorto(p)) + (c.jugadores[p.nombre].goles > 1 ? ' (' + c.jugadores[p.nombre].goles + ')' : ''));
     const parrafos = c.resumen.split(/\n\s*\n|\n/).filter((x) => x.trim()).map((x) => '<p class="body2">' + esc(x) + '</p>').join('');
     const jugaron = S.plantilla.filter((p) => c.jugadores[p.nombre] && c.jugadores[p.nombre].jugo)
-      .sort((a, b) => (c.jugadores[b.nombre].titular - c.jugadores[a.nombre].titular) || (ROLE_ORDER.indexOf(roleCode(a)) - ROLE_ORDER.indexOf(roleCode(b))));
+      .sort((a, b) => ROLE_ORDER.indexOf(roleCode(a)) - ROLE_ORDER.indexOf(roleCode(b)));
     const ratings = jugaron.map((p) => {
       const d = c.jugadores[p.nombre], isMvp = norm(c.mvp) === norm(p.nombre);
-      return '<button class="rcard' + (isMvp ? ' rcard--mvp' : '') + '" data-jugador="' + esc(p.nombre) + '"><span class="rcard__head"><span class="num-badge">' + dorsal(p) + '</span><span><b>' + esc(nombreCorto(p)) + '</b><span class="muted" style="font-size:12px">' + roleTxt(p) + (d.titular ? ' · Titular' : ' · Suplente') + (isMvp ? ' · MVP' : '') + '</span></span><span class="rcard__nota">' + fmt1(d.nota) + '</span></span>' +
+      return '<button class="rcard' + (isMvp ? ' rcard--mvp' : '') + '" data-jugador="' + esc(p.nombre) + '"><span class="rcard__head"><span class="num-badge">' + dorsal(p) + '</span><span><b>' + esc(nombreCorto(p)) + '</b><span class="muted" style="font-size:12px">' + roleNombre(p) + (isMvp ? ' · MVP' : '') + '</span></span><span class="rcard__nota">' + fmt1(d.nota) + '</span></span>' +
         '<span class="trio"><span><b>' + d.goles + '</b><small>Goles</small></span><span><b>' + d.asist + '</b><small>Asist.</small></span><span><b>' + (d.roja ? 'Roja' : d.amarilla ? 'Amarilla' : '–') + '</b><small>Tarjetas</small></span></span>' +
         (d.comentario ? '<span class="body2" style="font-size:14px">' + esc(d.comentario) + '</span>' : '') +
-        '<span class="rcard__more">Ver historial de crónicas' + ICON.right.replace('width="20" height="20"', 'width="14" height="14"') + '</span></button>';
+        '<span class="rcard__more">Ver su historial' + ICON.right.replace('width="20" height="20"', 'width="14" height="14"') + '</span></button>';
     }).join('');
     const opts = S.cronicas.map((x, i) => '<option value="' + x.jornada + '"' + (i === idx ? ' selected' : '') + '>Jornada ' + x.jornada + ' · ' + esc(x.rival) + '</option>').join('');
     $('#view-partidos').innerHTML =
@@ -331,7 +256,7 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
       '<div class="row-wrap"><div class="card summary"><h2 class="h2" style="font-size:26px">Resumen del partido</h2>' + (parrafos || '<p class="muted">Sin resumen.</p>') + '</div>' +
       '</div>' +
       premiosHTML(c) +
-      '<div style="display:flex;flex-direction:column;gap:16px"><div class="page-head" style="align-items:baseline"><h2 class="h2" style="font-size:30px">Análisis jugador a jugador</h2><span class="muted">Nota de 1 a 10 · pulsa para ver su historial</span></div><div class="ratings">' + (ratings || '<p class="muted">Sin notas.</p>') + '</div></div>';
+      '<div style="display:flex;flex-direction:column;gap:16px"><div class="page-head" style="align-items:baseline"><h2 class="h2" style="font-size:30px">Jugador a jugador</h2><span class="muted">Nota de 0 a 10 · pulsa para ver su historial</span></div><div class="ratings">' + (ratings || '<p class="muted">Sin notas.</p>') + '</div></div>';
     initRascas($('#view-partidos'));
   }
 
@@ -352,7 +277,6 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
       (n ? '<div class="dark next"><div class="next__main"><div style="display:flex;flex-direction:column;gap:8px"><span class="pill pill--accent" style="align-self:flex-start;letter-spacing:.1em;text-transform:uppercase">Próximo partido · Jornada ' + n.jornada + '</span><span class="next__title">' + partidoTitulo(n.local, n.rival) + '</span>' + (n.estado && !/confirmado/i.test(n.estado) || /por confirmar/i.test(n.estado || '') ? '<span class="pill pill--aviso" style="align-self:flex-start">' + esc(n.estado) + '</span>' : '') + (n.notas ? '<span style="color:#C9CDD4;font-size:14px">' + esc(n.notas) + '</span>' : '') + '</div>' +
         '<div class="facts"><div class="fact">' + ICON.cal + '<span><small>Fecha</small><b>' + esc(n.fecha) + '</b></span></div><div class="fact">' + ICON.clock + '<span><small>Hora</small><b>' + esc(n.hora || '[hh:mm]') + '</b></span></div><div class="fact">' + ICON.pin + '<span><small>Lugar</small><b>' + esc(n.campo || '[Campo]') + '</b></span></div><div class="fact">' + ICON.shield + '<span><small>Rival</small><b>' + esc(n.rival) + '</b></span></div></div></div>' +
         '<div class="strategy"><h2 class="h2" style="font-size:30px;text-transform:uppercase;color:#D9700F">La estrategia del míster</h2>' +
-        (n.sistema ? '<div class="chips"><span class="pill pill--ink">Sistema ' + esc(n.sistema) + '</span></div>' : '') +
         '<p class="body2" style="font-size:14px;white-space:pre-line">' + esc(n.estrategia || 'El míster publicará aquí su planteamiento con la crónica de la jornada.') + '</p>' +
         (n.bajas ? '<p class="muted" style="font-size:13px;white-space:pre-line"><b>Avisos:</b> ' + esc(n.bajas) + '</p>' : '') + '</div></div>' : '') +
       '<div class="page-head"><div><span class="eyebrow eyebrow--accent">Temporada ' + esc(CFG.temporada) + '</span><h1 class="h1">Calendario</h1></div><div class="chips" role="group" aria-label="Filtrar partidos">' +
@@ -486,7 +410,7 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
       '<div><h3 class="h2" style="font-size:22px;margin-bottom:6px">Jornada a jornada</h3>' + (hist.length ? hist.map((c) => {
         const d = c.jugadores[p.nombre];
         return '<div class="hist"><span class="hist__nota"><small>Nota</small><b>' + fmt1(d.nota) + '</b></span><div class="hist__main"><div class="hist__top"><b>Jornada ' + c.jornada + ' · ' + (c.local ? 'Tostaos F.C. vs ' + esc(c.rival) : esc(c.rival) + ' vs Tostaos F.C.') + '</b><span style="font-family:var(--display);font-weight:800;font-size:20px">' + (c.local ? c.gf + '–' + c.gc : c.gc + '–' + c.gf) + '</span></div>' +
-          '<span class="muted" style="font-size:13px">' + fechaLarga(c.fecha) + ' · ' + (d.titular ? 'Titular' : 'Suplente') + ' · ' + d.goles + ' goles · ' + d.asist + ' asist.' + (d.amarilla ? ' · Amarilla' : '') + (d.roja ? ' · Roja' : '') + (norm(c.mvp) === norm(p.nombre) ? ' · MVP' : '') + '</span>' +
+          '<span class="muted" style="font-size:13px">' + fechaLarga(c.fecha) + ' · ' + d.goles + ' goles · ' + d.asist + ' asist.' + (d.amarilla ? ' · Amarilla' : '') + (d.roja ? ' · Roja' : '') + (norm(c.mvp) === norm(p.nombre) ? ' · MVP' : '') + '</span>' +
           (d.comentario ? '<p class="body2" style="font-size:14px;margin-top:4px">' + esc(d.comentario) + '</p>' : '') + '</div></div>';
       }).join('') : '<p class="muted">Aún no ha jugado ningún partido con crónica.</p>') + '</div></div>';
     lastFocus = document.activeElement;
@@ -505,14 +429,13 @@ const roleNombre = (p) => {const code = roleCode(p);return code ? ROLE_NAME[code
     window.scrollTo(0, 0);
   }
   document.addEventListener('click', (e) => {
-    const t = e.target.closest('[data-jugador],[data-view],[data-filtro],[data-j],[data-car],[data-close],[data-ir-jornada]');
+    const t = e.target.closest('[data-jugador],[data-view],[data-filtro],[data-j],[data-close],[data-ir-jornada]');
     if (e.target.id === 'modal') return cerrarHistorial();
     if (!t) return;
     if (t.dataset.close !== undefined) return cerrarHistorial();
     if (t.dataset.jugador) return abrirHistorial(t.dataset.jugador);
     if (t.dataset.view) { S.view = t.dataset.view; return renderPlantilla(); }
     if (t.dataset.filtro) { S.filtro = t.dataset.filtro; return renderCalendario(); }
-    if (t.dataset.car) { const c = $('#carousel'); if (c) c.scrollBy({ left: (+t.dataset.car) * 276, behavior: 'smooth' }); return; }
     if (t.dataset.j) {
       const i = S.jornadaSel == null ? S.cronicas.length - 1 : S.cronicas.findIndex((c) => c.jornada === S.jornadaSel);
       const n = S.cronicas[i + (+t.dataset.j)]; if (n) { S.jornadaSel = n.jornada; renderPartidos(); } return;
