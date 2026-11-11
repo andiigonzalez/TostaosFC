@@ -21,7 +21,7 @@
   { "nombre": "Miguel Suárez", "corto": "M. Suárez", "dorsal": 21 , "posicion": "Defensa banda", "capitan": false, "foto": "", 
     "descripcion": "No sé nada" },
   { "nombre": "Gonzalo Ballesteros", "corto": "G. Balles", "dorsal": 16 , "posicion": "Delantero", "capitan": false, "foto": "", 
-    "descripcion": "Deportista multifacético: si es redonda y se puede golpear, cuenta con el." },
+    "descripcion": "Deportista multifacético: si es redonda y se puede golpear, cuenta con el. Este delantero las mete todas." },
   { "nombre": "Antonio Lafuente", "corto": "A. Lafu", "dorsal": 8, "posicion": "Mediocentro banda", "capitan": false, "foto": "", 
     "descripcion": "Sería nepotismo si no fuera el mejor del equipo. Tiene la técnica, visión, creatividad y talento para convertirse en el héroe de este club. Primo del míster y trabaja en el Metropolitan. Sólo habría más futbol en él si desayunase los cereales de un balón." },
   { "nombre": "Javier Laín", "corto": "J. Laín", "dorsal": 6, "posicion": "Defensa", "capitan": false, "foto": "", 
