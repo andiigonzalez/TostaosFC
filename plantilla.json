@@ -19,7 +19,7 @@
   { "nombre": "Nicolás Cifuentes", "corto": "N. Cifu", "dorsal": 14, "posicion": "Mediocentro banda", "capitan": false, "foto": "", 
     "descripcion": "mmmm idk" },
   { "nombre": "Miguel Suárez", "corto": "M. Suárez", "dorsal": 21 , "posicion": "Defensa banda", "capitan": false, "foto": "", 
-    "descripcion": "No sé nada" },
+    "descripcion": "Solo sé que no sé nada" },
   { "nombre": "Gonzalo Ballesteros", "corto": "G. Balles", "dorsal": 16 , "posicion": "Delantero", "capitan": false, "foto": "", 
     "descripcion": "Deportista multifacético: si es redonda y se puede golpear, cuenta con el. Este delantero las mete todas." },
   { "nombre": "Antonio Lafuente", "corto": "A. Lafu", "dorsal": 8, "posicion": "Mediocentro banda", "capitan": false, "foto": "", 
@@ -33,7 +33,7 @@
   { "nombre": "Jaime Salafranca", "corto": "J. Salafranca", "dorsal": 5, "posicion": "Defensa", "capitan": false, "foto": "", 
     "descripcion": "Por la zona de Salafak el rival no pasa, pide permiso. Pasa el balón o pasa el jugador. ¡Qué manera de ir al choque y de anticipar!" },
   { "nombre": "Javier Rodríguez-Moneu", "corto": "J. Rodríguez-Moneu", "dorsal": 4 , "posicion": "Defensa", "capitan": false, "foto": "", 
-    "descripcion": "Jugador muy consistente, golpeo de balón dañino y un juego aéreo fuerte. Capaz de sacar el balón y encontrar siempre un compañero en posicion de ventaja." },
+    "descripcion": "Jugador muy consistente, golpeo de balón dañino y un juego aéreo fuerte. Capaz de sacar el balón y encontrar siempre un compañero en posición de ventaja." },
   { "nombre": "Yago Tomé", "corto": "Y. Tomé", "dorsal": 30 , "posicion": "Mediocentro", "capitan": false, "foto": "", 
     "descripcion": "No sé nada de este men" }
 ]
