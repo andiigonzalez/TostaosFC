@@ -1,6 +1,6 @@
 [
   {"nombre": "Pablo Corredoira", "corto": "P. Corredoira", "dorsal": 1, "posicion": "Portero", "capitan": false,"foto": "",
-    "descripcion": "Este portero se dedica a defender ya sea con la ley o con su cuerpo. Ningun balón entra si no es a su despacho. Las (a) para todas y no, no hablo solo de tiros a puerta."},
+    "descripcion": "Este portero se dedica a defender ya sea con la ley o con su cuerpo. Ningun balón entra si no es a su despacho. Las para (a) todas y no, no hablo solo de tiros a puerta."},
 
   {"nombre": "Beltrán Lafuente","corto": "B. Lafuente","dorsal": 10,
     "posicion": "Mediocentro", "capitan": true, "foto": "",
