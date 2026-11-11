@@ -4,12 +4,12 @@
 
   {"nombre": "Beltrán Lafuente","corto": "B. Lafuente","dorsal": 10,
     "posicion": "Mediocentro", "capitan": true, "foto": "",
-    "descripcion": "Míster, capitán y centrocampista zurdo: se convoca a sí mismo cada semana y nadie se atreve a discutírselo. Lleva el 10 por Messi, del que es fan absoluto. Jugó un año en Primera División en España, en Segunda con el Pisa y en Islandia con el UMF Skallagrímur: el único del equipo con pasaporte futbolístico."},
+    "descripcion": "Míster, capitán y centrocampista zurdo. Se convoca a sí mismo cada semana y nadie se atreve a discutírselo. Lleva el 10 por Messi, del que es fan absoluto. Jugó un año en Primera División en España, en Segunda con el Pisa y en Islandia con el UMF Skallagrímur: el único del equipo con pasaporte futbolístico. Este equipo? Su sueño frustrado."},
   
   { "nombre": "Gonzalo Mestanza", "corto": "G. Mestanza", "dorsal": 77, "posicion": "Mediocentro", "capitan": false, "foto": "", 
     "descripcion": "Jugón, Tostao y un altleta híbrido - lo da todo de noche y de día. Mas aguante que el conejo duracell. Seguramente el jugador más completo del equipo. Tiene lectura, tiene pase, tiene visión y un físico privilegiado. Todo potenciado por su mentalidad, totalmente indestructible." },
   { "nombre": "Ricardo Soto", "corto": "R. Soto", "dorsal": 88, "posicion": "Mediocentro banda", "capitan": false, "foto": "", 
-    "descripcion":"Tú no eliges el campo: el campo te elige a ti. Y a Ricardo lo han elegido todos: el de golf, el de ovejas y el de fútbol. Ya sea con ovejas o con líneas blancas, este mediocentro se dedica a conquistar y domar tierras." },
+    "descripcion":"Tú no eliges el campo, el campo te elige a ti. Y a Ricardo lo han elegido todos: el de golf, el de ovejas y el de fútbol. Ya sea con ovejas o con líneas blancas, este mediocentro se dedica a conquistar y domar tierras." },
   { "nombre": "Diego Muro", "corto": "D. Muro", "dorsal": 204, "posicion": "Defensa banda", "capitan": false, "foto": "", 
     "descripcion": "Muro de apellido y de oficio. Con más fondo que el Pacífico. El equipo agradece su dedicación al gym; el 204 no es un dorsal, es su marca en press banca." },
   { "nombre": "Juan de Solas", "corto": "J. Solas", "dorsal": 19, "posicion": "Mediocentro banda", "capitan": false, "foto": "", 
