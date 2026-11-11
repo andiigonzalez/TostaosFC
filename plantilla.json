@@ -1,6 +1,6 @@
 [
   {"nombre": "Pablo Corredoira", "corto": "P. Corredoira", "dorsal": 1, "posicion": "Portero", "capitan": false,"foto": "",
-    "descripcion": "Este portero se dedica a defender ya sea con la ley o con su cuerpo. Ningun balón entra si no es a su despacho. Las para (a) todas y no, no hablo solo de tiros a puerta."},
+    "descripcion": "Este portero se dedica a defender ya sea con la ley o con su cuerpo. Las intenta parar (a) todas y no, no hablo solo de tiros a puerta."},
 
   {"nombre": "Beltrán Lafuente","corto": "B. Lafuente","dorsal": 10,
     "posicion": "Mediocentro", "capitan": true, "foto": "",
@@ -17,11 +17,11 @@
   { "nombre": "Jaime Díez", "corto": "J. Díez", "dorsal": 11, "posicion": "Mediocentro banda", "capitan": false, "foto": "", 
     "descripcion": "La técnica, el regate y la creatividad de aquellos jugadores del FIFA Street. Tan rápido que los rivales no le marcan, le persiguen. Confiamos que el César y sus manos le tengan a punto esta temporada. " },
   { "nombre": "Nicolás Cifuentes", "corto": "N. Cifu", "dorsal": 14, "posicion": "Mediocentro banda", "capitan": false, "foto": "", 
-    "descripcion": "mmmm idk" },
+    "descripcion": "El encantador de serpientes, capaz de domar al género femenino como a la pelota de fútbol. Sus píes de porcelana acunan la pelot ay la educa como si de una mujer se tratase. Juego combinativo para los entendidos." },
   { "nombre": "Miguel Suárez", "corto": "M. Suárez", "dorsal": 21 , "posicion": "Defensa banda", "capitan": false, "foto": "", 
     "descripcion": "Solo sé que no sé nada" },
   { "nombre": "Gonzalo Ballesteros", "corto": "G. Balles", "dorsal": 16 , "posicion": "Delantero", "capitan": false, "foto": "", 
-    "descripcion": "Deportista multifacético: si es redonda y se puede golpear, cuenta con el. Este delantero las mete todas." },
+    "descripcion": "Deportista multifacético: si es redonda y se puede golpear, cuenta con el. Una increíble lectura del juego sin el fuera de juego, pareciera que quisiera dejar mango como cortesía al portero rival cuando tenemos la pelota. La creatividad de Neymar Jr con los pies de su padre Ballesteros del levante." },
   { "nombre": "Antonio Lafuente", "corto": "A. Lafu", "dorsal": 8, "posicion": "Mediocentro banda", "capitan": false, "foto": "", 
     "descripcion": "Sería nepotismo si no fuera el mejor del equipo. Tiene la técnica, visión, creatividad y talento para convertirse en el héroe de este club. Primo del míster y trabaja en el Metropolitan. Sólo habría más futbol en él si desayunase los cereales de un balón." },
   { "nombre": "Javier Laín", "corto": "J. Laín", "dorsal": 6, "posicion": "Defensa", "capitan": false, "foto": "", 
@@ -31,9 +31,9 @@
   { "nombre": "Jacobo Pérez-Pla", "corto": "J. Pérez-Pla", "dorsal": 7, "posicion": "Defensa banda", "capitan": false, "foto": "", 
     "descripcion": "La brega, el esfuerzo y el compromiso. Seguramente sea el jugador que mejor refleja lo que es este equipo." },
   { "nombre": "Jaime Salafranca", "corto": "J. Salafranca", "dorsal": 5, "posicion": "Defensa", "capitan": false, "foto": "", 
-    "descripcion": "Por la zona de Salafak el rival no pasa, pide permiso. Pasa el balón o pasa el jugador. ¡Qué manera de ir al choque y de anticipar!" },
+    "descripcion": "Por la zona de Salafak el rival no pasa, pide permiso. Pasa el balón o pasa el jugador. Juega concentradísimo lo cual le hace subir el nivel a la zaga defensiva. ¡Qué manera de ir al choque y de anticipar!" },
   { "nombre": "Javier Rodríguez-Moneu", "corto": "J. Rodríguez-Moneu", "dorsal": 4 , "posicion": "Defensa", "capitan": false, "foto": "", 
     "descripcion": "Jugador muy consistente, golpeo de balón dañino y un juego aéreo fuerte. Capaz de sacar el balón y encontrar siempre un compañero en posición de ventaja." },
   { "nombre": "Yago Tomé", "corto": "Y. Tomé", "dorsal": 30 , "posicion": "Mediocentro", "capitan": false, "foto": "", 
-    "descripcion": "No sé nada de este men" }
+    "descripcion": "Qué pensaría el Yago capitán del Yago de ahora, y qué pensaría su abuela? Orden táctico y un golpeo del balon que sigue existiendo, simplemente hay que encontrarlo." }
 ]
